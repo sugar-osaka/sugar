@@ -275,14 +275,32 @@ function parseMaster(text){
   }
 }
 
-fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){
-  parseMaster(t);
-  return fetch(CSV_URL);
-}).then(function(r){return r.text();}).then(function(t){
-  parseCSV(t);
-}).catch(function(){
-  fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){parseCSV(t);}).catch(function(){renderHours();});
-});
+var CACHE_KEY='sugar_csv';
+var CACHE_TIME_KEY='sugar_csv_time';
+var MASTER_CACHE_KEY='sugar_master_csv';
+var MASTER_CACHE_TIME_KEY='sugar_master_csv_time';
+var CACHE_DURATION=5*60*1000;
+
+function cacheGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function cacheSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+
+function loadData(){
+  var cachedMaster=cacheGet(MASTER_CACHE_KEY);
+  var masterFresh=cachedMaster&&(Date.now()-parseInt(cacheGet(MASTER_CACHE_TIME_KEY)||'0'))<CACHE_DURATION;
+  var cachedCSV=cacheGet(CACHE_KEY);
+  var csvFresh=cachedCSV&&(Date.now()-parseInt(cacheGet(CACHE_TIME_KEY)||'0'))<CACHE_DURATION;
+
+  if(masterFresh) parseMaster(cachedMaster);
+  if(csvFresh){parseCSV(cachedCSV);return;}
+
+  var fetchMaster=masterFresh?Promise.resolve(cachedMaster):fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){cacheSet(MASTER_CACHE_KEY,t);cacheSet(MASTER_CACHE_TIME_KEY,Date.now().toString());return t;}).catch(function(){return cachedMaster||'';});
+
+  fetchMaster.then(function(t){
+    if(t&&!masterFresh) parseMaster(t);
+    return fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){cacheSet(CACHE_KEY,t);cacheSet(CACHE_TIME_KEY,Date.now().toString());return t;});
+  }).then(function(t){parseCSV(t);}).catch(function(){if(cachedCSV)parseCSV(cachedCSV);else renderHours();});
+}
+loadData();
 </script>
 </body>
 </html>
