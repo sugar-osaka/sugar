@@ -28,7 +28,8 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .banner-overlay{position:absolute;bottom:0;left:0;right:0;padding:28px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,0.55))}
 .banner-name{font-family:'Caveat Brush',cursive;font-size:26px;color:#fff;line-height:1.1}
 .banner-name span{font-family:'Yomogi',cursive;font-size:20px}
-.banner-address{font-size:10px;margin-top:6px;opacity:0.75;line-height:1.6;color:#fff;font-family:'Yomogi',cursive}
+.banner-address{font-size:10px;margin-top:6px;opacity:0.75;line-height:1.6;color:#fff;font-family:'Yomogi',cursive;text-shadow:0 0 0.5px #fff}
+@media(max-width:600px){.banner-address{display:none}}
 .banner-arrow{position:absolute;bottom:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;z-index:2}
 .banner-arrow svg{width:14px;height:14px;stroke:#fff;fill:none}
 
@@ -39,8 +40,8 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .cal-banner-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#A63F52;z-index:0}
 .cal-banner{display:flex;flex-direction:column;justify-content:flex-start;text-decoration:none;border-radius:12px;padding:14px 16px;font-family:'Yomogi',cursive;background:#EEE8DF;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
 .cal-banner:active{transform:scale(0.98)}
-.cal-banner-title{font-family:'Caveat Brush',cursive;font-size:22px;color:#5C4A3A;line-height:1.1}
-.cal-banner-sub{font-size:10px;color:#9a8070;font-family:'Yomogi',cursive;margin-top:2px}
+.cal-banner-title{font-family:'Caveat Brush',cursive;font-size:22px;color:#5C4A3A;line-height:1.1;text-shadow:0 0 0.3px currentColor}
+.cal-banner-sub{font-size:10px;color:#9a8070;font-family:'Yomogi',cursive;margin-top:2px;text-shadow:0 0 0.4px currentColor}
 .cal-banner-btn{display:inline-flex;align-items:center;gap:6px;background:#5C4A3A;color:#fff;font-family:'Yomogi',cursive;font-size:10px;padding:6px 12px;border-radius:20px;white-space:nowrap;width:fit-content;align-self:flex-end;margin-top:auto}
 .cal-banner-btn svg{width:10px;height:10px;stroke:#fff;fill:none}
 
@@ -52,7 +53,21 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .uber-banner-title{font-family:'Caveat Brush',cursive;font-size:18px;color:#5C4A3A;line-height:1.1;margin-bottom:4px;white-space:nowrap}
 .uber-banner-label{font-size:9px;color:#9a8070;font-family:'Yomogi',cursive}
 
-/* フッター */
+/* Yomogiを太く見せる */
+.wrap *{-webkit-font-smoothing:antialiased}
+.banner-address,.cal-banner-sub,.uber-banner-label{text-shadow:0 0 0.6px currentColor;-webkit-text-stroke:0.3px currentColor}
+.cal-banner-sub,.uber-banner-label{-webkit-text-stroke:0.2px currentColor}
+.banner-name span{text-shadow:0 0 0.8px #fff;-webkit-text-stroke:0.3px #fff}
+
+/* PC表示時は大きいサイズに戻す */
+@media(min-width:601px){
+  .banner-name{font-size:28px}
+  .banner-name span{font-size:22px}
+  .cal-banner-title{font-size:28px}
+  .cal-banner{padding:18px 20px}
+  .uber-banner-title{font-size:28px}
+  .uber-banner{padding:18px 16px}
+}
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
 </style>
 </head>
