@@ -29,8 +29,10 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .banner-name{font-family:'Caveat Brush',cursive;font-size:26px;color:#fff;line-height:1.1}
 .banner-name span{font-family:'Yomogi',cursive;font-size:20px}
 .banner-address{font-size:10px;margin-top:6px;opacity:0.75;line-height:1.6;color:#fff;font-family:'Yomogi',cursive;text-shadow:0 0 0.5px #fff}
-.shop-label{display:none;font-size:10px;color:#fff;font-family:'Yomogi',cursive;margin-bottom:3px;text-shadow:0 0 0.6px #fff;-webkit-text-stroke:0.2px #fff;opacity:0.85}
+.shop-label{display:none;font-size:10px;color:#fff;font-family:'Yomogi',cursive;margin-top:3px;text-shadow:0 0 0.6px #fff;-webkit-text-stroke:0.2px #fff;opacity:0.85}
+.banner.shop .banner-address{display:none}
 @media(max-width:600px){.banner-address{display:none}.shop-name{font-size:18px!important}.shop-label{display:block}}
+@media(min-width:601px){.banner.shop .banner-address{display:block}}
 .banner-arrow{position:absolute;bottom:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;z-index:2}
 .banner-arrow svg{width:14px;height:14px;stroke:#fff;fill:none}
 
@@ -108,8 +110,8 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     <a class="banner shop" href="https://sugargift.theshop.jp/" target="_blank" rel="noopener">
       <img class="banner-img" src="four_sec.jpg" alt="-four sec-">
       <div class="banner-overlay">
-        <div class="shop-label">オンラインショップ</div>
         <div class="banner-name shop-name">four sec</div>
+        <div class="shop-label">オンラインショップ</div>
         <div class="banner-address">オンラインショップ</div>
       </div>
       <div class="banner-arrow">
