@@ -11,7 +11,7 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
-.wrap{max-width:480px;margin:0 auto;padding:1.5rem 1rem;font-family:'Yomogi',cursive}
+.wrap{max-width:680px;margin:0 auto;padding:1.5rem 1rem;font-family:'Yomogi',cursive}
 
 /* ヘッダー */
 .header{text-align:center;margin-bottom:1.8rem;padding-top:1rem}
@@ -22,7 +22,7 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .banners{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
 
 /* 店舗バナー */
-.banner{display:block;text-decoration:none;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:3/4;border:1.5px solid #f0ebe8;transition:transform 0.2s ease,box-shadow 0.2s ease}
+.banner{display:block;text-decoration:none;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:1/1;border:1.5px solid #f0ebe8;transition:transform 0.2s ease,box-shadow 0.2s ease}
 .banner:active{transform:scale(0.98)}
 .banner-placeholder{width:100%;height:100%;display:flex;align-items:center;justify-content:center}
 .banner.sagisu .banner-placeholder{background:#F9EFF1}
@@ -36,15 +36,25 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .banner-arrow{position:absolute;top:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center}
 .banner-arrow svg{width:14px;height:14px;stroke:#fff;fill:none}
 
-/* 営業カレンダーバナー */
-.cal-banner{display:flex;align-items:center;justify-content:space-between;text-decoration:none;border-radius:12px;padding:16px 20px;font-family:'Yomogi',cursive;background:#F9EFF1;transition:transform 0.2s ease}
+/* カレンダー＋UberEatsエリア */
+.bottom-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;align-items:stretch}
+
+.cal-banner-wrap{position:relative;display:flex;flex-direction:column}
+.cal-banner-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#A63F52;z-index:0}
+.cal-banner{display:flex;flex-direction:column;justify-content:flex-start;text-decoration:none;border-radius:12px;padding:18px 20px;font-family:'Yomogi',cursive;background:#EEE8DF;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
 .cal-banner:active{transform:scale(0.98)}
-.cal-banner-left{display:flex;flex-direction:column;gap:2px}
-.cal-banner-tag{font-size:10px;letter-spacing:0.2em;color:#c9909f;font-family:'Yomogi',cursive}
-.cal-banner-title{font-family:'Caveat Brush',cursive;font-size:28px;color:#A63F52;line-height:1.1}
-.cal-banner-sub{font-size:10px;color:#c9909f;font-family:'Yomogi',cursive;margin-top:1px}
-.cal-banner-right{display:flex;align-items:center;gap:6px;background:#A63F52;color:#fff;font-family:'Yomogi',cursive;font-size:11px;padding:8px 14px;border-radius:20px;white-space:nowrap}
-.cal-banner-right svg{width:12px;height:12px;stroke:#fff;fill:none;flex-shrink:0}
+.cal-banner-title{font-family:'Caveat Brush',cursive;font-size:28px;color:#5C4A3A;line-height:1.1}
+.cal-banner-sub{font-size:10px;color:#9a8070;font-family:'Yomogi',cursive;margin-top:2px}
+.cal-banner-btn{display:inline-flex;align-items:center;gap:6px;background:#5C4A3A;color:#fff;font-family:'Yomogi',cursive;font-size:11px;padding:7px 14px;border-radius:20px;white-space:nowrap;width:fit-content;align-self:flex-end;margin-top:auto}
+.cal-banner-btn svg{width:12px;height:12px;stroke:#fff;fill:none}
+
+.uber-banner-wrap{position:relative;display:flex;flex-direction:column}
+.uber-banner-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#2E6040;z-index:0}
+.uber-banner{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;text-decoration:none;border-radius:12px;padding:18px 16px;background:#EEE8DF;border:none;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
+.uber-banner:active{transform:scale(0.98)}
+.uber-icon{font-size:15px;font-family:Arial,sans-serif;font-weight:900;color:#2E6040;line-height:1.2;text-align:left;letter-spacing:-0.3px;margin-bottom:10px}
+.uber-banner-title{font-family:'Caveat Brush',cursive;font-size:28px;color:#5C4A3A;line-height:1.1;margin-bottom:4px;white-space:nowrap}
+.uber-banner-label{font-size:10px;color:#9a8070;font-family:'Yomogi',cursive;letter-spacing:0.05em}
 
 /* フッター */
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
@@ -62,9 +72,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   <div class="banners">
 
     <a class="banner sagisu" href="https://sugar-osaka.github.io/sugar/sagisu/">
-      <div class="banner-placeholder">
-        <svg viewBox="0 0 48 48" fill="none" stroke="#A63F52" stroke-width="1.5"><rect x="8" y="16" width="32" height="24" rx="2"/><path d="M4 20 L24 8 L44 20"/><rect x="18" y="28" width="12" height="12"/></svg>
-      </div>
+      <img class="banner-img" src="sagisu.jpg" alt="sagisu店">
       <div class="banner-overlay">
         <div class="banner-name">sagisu店</div>
         <div class="banner-address">福島区鷺洲1-11-3</div>
@@ -75,9 +83,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     </a>
 
     <a class="banner ebie" href="https://sugar-osaka.github.io/sugar/ebie/">
-      <div class="banner-placeholder">
-        <svg viewBox="0 0 48 48" fill="none" stroke="#7A9A60" stroke-width="1.5"><rect x="8" y="16" width="32" height="24" rx="2"/><path d="M4 20 L24 8 L44 20"/><rect x="18" y="28" width="12" height="12"/></svg>
-      </div>
+      <img class="banner-img" src="ebie.jpg" alt="ebie店">
       <div class="banner-overlay">
         <div class="banner-name">ebie店</div>
         <div class="banner-address">福島区海老江5-3-10</div>
@@ -88,9 +94,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     </a>
 
     <a class="banner shop" href="https://sugargift.theshop.jp/" target="_blank" rel="noopener">
-      <div class="banner-placeholder">
-        <svg viewBox="0 0 48 48" fill="none" stroke="#C8956C" stroke-width="1.5"><path d="M6 18L3 10h42l-3 8"/><rect x="6" y="18" width="36" height="22" rx="2"/><path d="M18 18c0-3.3 2.7-6 6-6s6 2.7 6 6"/></svg>
-      </div>
+      <img class="banner-img" src="four_sec.jpg" alt="-four sec-">
       <div class="banner-overlay">
         <div class="banner-name" style="font-size:22px">-four sec-</div>
         <div class="banner-address">オンラインショップ</div>
@@ -102,17 +106,39 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
   </div>
 
-  <!-- 営業カレンダー -->
-  <a class="cal-banner" href="https://sugar-osaka.github.io/sugar-calendar/">
-    <div class="cal-banner-left">
-      <div class="cal-banner-title">Calendar</div>
-      <div class="cal-banner-sub">営業カレンダー</div>
+  <!-- カレンダー＋UberEats -->
+  <div class="bottom-grid">
+
+    <div class="cal-banner-wrap">
+      <a class="cal-banner" href="https://sugar-osaka.github.io/sugar-calendar/">
+        <div>
+          <div class="cal-banner-title">Calendar</div>
+          <div class="cal-banner-sub">営業カレンダー</div>
+        </div>
+        <div class="cal-banner-btn">
+          CHECK
+          <svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+        </div>
+      </a>
     </div>
-    <div class="cal-banner-right">
-      CHECK
-      <svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+
+    <div class="uber-banner-wrap">
+      <a class="uber-banner" href="https://www.ubereats.com/store-browse-uuid/a9e7abd2-8722-5720-b635-0ced9a2e3a95?diningMode=DELIVERY" target="_blank" rel="noopener">
+        <div class="uber-icon">Uber<br>Eats</div>
+        <div class="uber-banner-title">Cake & Waffle</div>
+        <div class="uber-banner-label">ケーキ・ワッフル</div>
+      </a>
     </div>
-  </a>
+
+    <div class="uber-banner-wrap">
+      <a class="uber-banner" href="https://www.ubereats.com/store-browse-uuid/0f9441e6-1672-476f-945d-fc962ed9e1c3?diningMode=DELIVERY" target="_blank" rel="noopener">
+        <div class="uber-icon">Uber<br>Eats</div>
+        <div class="uber-banner-title">Crepe</div>
+        <div class="uber-banner-label">クレープ</div>
+      </a>
+    </div>
+
+  </div>
 
 </div>
 
