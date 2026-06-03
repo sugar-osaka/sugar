@@ -46,7 +46,7 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 
 /* アクセスカード */
 .access-card{background:#fff;border:1.5px solid #E8EFE3;border-radius:12px;padding:14px 16px}
-.access-address{font-size:12px;color:#432f2f;line-height:2;text-shadow:0 0 0.3px #432f2f}
+.access-address{font-size:12px;color:#5C4A3A;line-height:2;text-shadow:0 0 0.3px #5C4A3A}
 .access-station{font-size:11px;color:#9a8070;margin-top:4px;line-height:1.8;text-shadow:0 0 0.2px #9a8070;padding-left:1em}
 .access-station::before{content:'▶︎ ';font-size:10px}
 .access-station-2{font-size:11px;color:#9a8070;line-height:1.8;text-shadow:0 0 0.2px #9a8070;padding-left:1em}
@@ -61,7 +61,7 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .reserve-btn-label{font-size:10px;color:#b09a8a;font-family:'Yomogi',cursive;margin-bottom:4px;text-shadow:0 0 0.2px #b09a8a}
 .reserve-btn-name{font-family:'Caveat Brush',cursive;font-size:20px;color:#7A9A60;line-height:1.2}
 .reserve-btn-name span{font-family:'Yomogi',cursive;font-size:16px;text-shadow:0 0 0.6px #7A9A60;-webkit-text-stroke:0.3px #7A9A60}
-.reserve-btn-arrow{font-size:10px;color:#ccc;margin-top:6px;font-family:'Yomogi',cursive}
+.reserve-btn-arrow{font-size:11px;color:#b09a8a;margin-top:auto;padding-top:8px;text-align:right;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #b09a8a}
 
 /* リンクボタン群 */
 .links{display:flex;flex-direction:column;gap:10px}
@@ -83,6 +83,8 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .uber-btn-icon{font-size:13px;font-family:Arial,sans-serif;font-weight:900;color:#2E6040;line-height:1.2;letter-spacing:-0.3px;margin-bottom:8px}
 .uber-btn-name{font-family:'Caveat Brush',cursive;font-size:18px;color:#9A7B6A;line-height:1.1;margin-bottom:2px}
 .uber-btn-sub{font-size:9px;color:#9a8070;font-family:'Yomogi',cursive}
+.uber-btn-arrow{display:flex;justify-content:flex-end;margin-top:auto;padding-top:8px}
+.uber-btn-arrow svg{width:14px;height:14px;stroke:#ccc;fill:none}
 
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
 </style>
@@ -113,7 +115,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   <div class="section">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.6rem">
       <div class="section-title" style="margin-bottom:0">HOURS</div>
-      <a href="https://sugar-osaka.github.io/sugar-calendar/?shop=ebie" target="_blank" rel="noopener" style="font-size:11px;color:#7A9A60;font-family:'Yomogi',cursive;text-decoration:none;text-shadow:0 0 0.2px #7A9A60">営業カレンダーを確認 →</a>
+      <a href="https://sugar-osaka.github.io/sugar-calendar/?shop=ebie" target="_blank" rel="noopener" style="font-size:11px;color:#7A9A60;font-family:'Yomogi',cursive;text-decoration:none;text-shadow:0 0 0.2px #7A9A60;background:linear-gradient(transparent 50%,#E8EFE3 50%);padding:0 2px">営業カレンダーを確認 →</a>
     </div>
     <div class="hours-card">
       <div id="hours-content"><div class="hours-loading">読み込み中...</div></div>
@@ -127,10 +129,12 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
       <div class="access-address">大阪府大阪市福島区海老江5-3-10 西本ビル1階</div>
       <div class="access-station">JR東西線「海老江駅」2番出口から徒歩約1分</div>
       <div class="access-station-2">千日前線「野田阪神駅」/ 阪神本線「野田駅」から徒歩約5分</div>
-      <a class="map-btn" href="https://maps.app.goo.gl/p5q52sH4MQPigsN2A" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
-        Google マップで開く
-      </a>
+      <div style="text-align:right">
+        <a class="map-btn" href="https://maps.app.goo.gl/p5q52sH4MQPigsN2A" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+          Google マップで開く
+        </a>
+      </div>
     </div>
   </div>
 
@@ -188,6 +192,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
             <div class="uber-btn-icon">Uber<br>Eats</div>
             <div class="uber-btn-name">Cake & Waffle</div>
             <div class="uber-btn-sub">ケーキ・ワッフル</div>
+            <div class="uber-btn-arrow"><svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
           </a>
         </div>
         <div class="uber-wrap">
@@ -195,6 +200,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
             <div class="uber-btn-icon">Uber<br>Eats</div>
             <div class="uber-btn-name">Crepe</div>
             <div class="uber-btn-sub">クレープ</div>
+            <div class="uber-btn-arrow"><svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
           </a>
         </div>
       </div>
