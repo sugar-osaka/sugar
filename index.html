@@ -22,36 +22,35 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .banners{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:14px}
 
 /* 店舗バナー */
-.banner{display:block;text-decoration:none;border-radius:12px;overflow:visible;position:relative;aspect-ratio:1/1;transition:transform 0.2s ease}
+.banner{display:block;text-decoration:none;border-radius:12px;overflow:hidden;position:relative;aspect-ratio:1/1;transition:transform 0.2s ease}
 .banner:active{transform:scale(0.98)}
-.banner-inner{width:100%;height:100%;border-radius:12px;overflow:hidden;position:relative}
 .banner-img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .banner-overlay{position:absolute;bottom:0;left:0;right:0;padding:28px 16px 16px;background:linear-gradient(transparent,rgba(0,0,0,0.55))}
-.banner-inner::after{display:none}.banner-name{font-family:'Caveat Brush',cursive;font-size:28px;color:#fff;line-height:1.1}
+.banner-name{font-family:'Caveat Brush',cursive;font-size:26px;color:#fff;line-height:1.1}
+.banner-name span{font-family:'Yomogi',cursive;font-size:20px}
 .banner-address{font-size:10px;margin-top:6px;opacity:0.75;line-height:1.6;color:#fff;font-family:'Yomogi',cursive}
 .banner-arrow{position:absolute;bottom:12px;right:12px;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,0.2);display:flex;align-items:center;justify-content:center;z-index:2}
 .banner-arrow svg{width:14px;height:14px;stroke:#fff;fill:none}
 
-/* マスキングテープ */
-.tape{position:absolute;z-index:10;pointer-events:none}
-
 /* カレンダー＋UberEatsエリア */
-.bottom-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px;align-items:stretch}
+.bottom-grid{display:grid;grid-template-columns:2fr 1fr 1fr;gap:8px;align-items:stretch}
+
 .cal-banner-wrap{position:relative;display:flex;flex-direction:column}
 .cal-banner-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#A63F52;z-index:0}
-.cal-banner{display:flex;flex-direction:column;justify-content:flex-start;text-decoration:none;border-radius:12px;padding:18px 20px;font-family:'Yomogi',cursive;background:#EEE8DF;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
+.cal-banner{display:flex;flex-direction:column;justify-content:flex-start;text-decoration:none;border-radius:12px;padding:14px 16px;font-family:'Yomogi',cursive;background:#EEE8DF;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
 .cal-banner:active{transform:scale(0.98)}
-.cal-banner-title{font-family:'Caveat Brush',cursive;font-size:28px;color:#5C4A3A;line-height:1.1}
+.cal-banner-title{font-family:'Caveat Brush',cursive;font-size:22px;color:#5C4A3A;line-height:1.1}
 .cal-banner-sub{font-size:10px;color:#9a8070;font-family:'Yomogi',cursive;margin-top:2px}
-.cal-banner-btn{display:inline-flex;align-items:center;gap:6px;background:#5C4A3A;color:#fff;font-family:'Yomogi',cursive;font-size:11px;padding:7px 14px;border-radius:20px;white-space:nowrap;width:fit-content;align-self:flex-end;margin-top:auto}
-.cal-banner-btn svg{width:12px;height:12px;stroke:#fff;fill:none}
+.cal-banner-btn{display:inline-flex;align-items:center;gap:6px;background:#5C4A3A;color:#fff;font-family:'Yomogi',cursive;font-size:10px;padding:6px 12px;border-radius:20px;white-space:nowrap;width:fit-content;align-self:flex-end;margin-top:auto}
+.cal-banner-btn svg{width:10px;height:10px;stroke:#fff;fill:none}
+
 .uber-banner-wrap{position:relative;display:flex;flex-direction:column}
 .uber-banner-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#2E6040;z-index:0}
-.uber-banner{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;text-decoration:none;border-radius:12px;padding:18px 16px;background:#EEE8DF;border:none;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
+.uber-banner{display:flex;flex-direction:column;justify-content:flex-start;align-items:flex-start;text-decoration:none;border-radius:12px;padding:14px 12px;background:#EEE8DF;border:none;transition:transform 0.2s ease;position:relative;z-index:1;flex:1}
 .uber-banner:active{transform:scale(0.98)}
-.uber-icon{font-size:15px;font-family:Arial,sans-serif;font-weight:900;color:#2E6040;line-height:1.2;text-align:left;letter-spacing:-0.3px;margin-bottom:10px}
-.uber-banner-title{font-family:'Caveat Brush',cursive;font-size:28px;color:#5C4A3A;line-height:1.1;margin-bottom:4px;white-space:nowrap}
-.uber-banner-label{font-size:10px;color:#9a8070;font-family:'Yomogi',cursive;letter-spacing:0.05em}
+.uber-icon{font-size:13px;font-family:Arial,sans-serif;font-weight:900;color:#2E6040;line-height:1.2;letter-spacing:-0.3px;margin-bottom:8px}
+.uber-banner-title{font-family:'Caveat Brush',cursive;font-size:18px;color:#5C4A3A;line-height:1.1;margin-bottom:4px;white-space:nowrap}
+.uber-banner-label{font-size:9px;color:#9a8070;font-family:'Yomogi',cursive}
 
 /* フッター */
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
@@ -68,75 +67,37 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   <!-- 3バナー -->
   <div class="banners">
 
-    <!-- sagisu店 / テープ：右上に斜め -->
     <a class="banner sagisu" href="https://sugar-osaka.github.io/sugar/sagisu/">
-      <div class="banner-inner">
-        <img class="banner-img" src="sagisu.jpg" alt="sagisu店">
-        <div class="banner-overlay">
-          <div class="banner-name">sagisu店</div>
-          <div class="banner-address">福島区鷺洲1-11-3</div>
-        </div>
+      <img class="banner-img" src="sagisu.jpg" alt="sagisu店">
+      <div class="banner-overlay">
+        <div class="banner-name">sagisu<span>店</span></div>
+        <div class="banner-address">福島区鷺洲1-11-3</div>
       </div>
       <div class="banner-arrow">
         <svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
       </div>
-      <!-- テープ：右上、斜め-15度、細め、チェック柄風 -->
-      <svg class="tape" style="top:-8px;right:14px;transform:rotate(-15deg)" width="52" height="22" viewBox="0 0 52 22">
-        <rect x="0" y="3" width="52" height="16" rx="2" fill="#D4A8B0" opacity="0.82"/>
-        <line x1="8" y1="3" x2="8" y2="19" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-        <line x1="16" y1="3" x2="16" y2="19" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-        <line x1="24" y1="3" x2="24" y2="19" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-        <line x1="32" y1="3" x2="32" y2="19" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-        <line x1="40" y1="3" x2="40" y2="19" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-        <line x1="0" y1="9" x2="52" y2="9" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-        <line x1="0" y1="14" x2="52" y2="14" stroke="#C08090" stroke-width="0.8" opacity="0.5"/>
-      </svg>
     </a>
 
-    <!-- ebie店 / テープ：左下に斜め -->
     <a class="banner ebie" href="https://sugar-osaka.github.io/sugar/ebie/">
-      <div class="banner-inner">
-        <img class="banner-img" src="ebie.jpg" alt="ebie店">
-        <div class="banner-overlay">
-          <div class="banner-name">ebie店</div>
-          <div class="banner-address">福島区海老江5-3-10</div>
-        </div>
+      <img class="banner-img" src="ebie.jpg" alt="ebie店">
+      <div class="banner-overlay">
+        <div class="banner-name">ebie<span>店</span></div>
+        <div class="banner-address">福島区海老江5-3-10</div>
       </div>
       <div class="banner-arrow">
         <svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
       </div>
-      <!-- テープ：左下、斜め12度、太め、ドット柄風 -->
-      <svg class="tape" style="bottom:-6px;left:20px;transform:rotate(12deg)" width="68" height="24" viewBox="0 0 68 24">
-        <rect x="0" y="2" width="68" height="20" rx="2" fill="#A8C4A0" opacity="0.80"/>
-        <circle cx="10" cy="12" r="2.5" fill="#7A9A70" opacity="0.45"/>
-        <circle cx="20" cy="7" r="2" fill="#7A9A70" opacity="0.45"/>
-        <circle cx="30" cy="14" r="2.5" fill="#7A9A70" opacity="0.45"/>
-        <circle cx="40" cy="8" r="2" fill="#7A9A70" opacity="0.45"/>
-        <circle cx="50" cy="13" r="2.5" fill="#7A9A70" opacity="0.45"/>
-        <circle cx="60" cy="7" r="2" fill="#7A9A70" opacity="0.45"/>
-      </svg>
     </a>
 
-    <!-- four sec / テープ：上中央、ほぼ水平 -->
     <a class="banner shop" href="https://sugargift.theshop.jp/" target="_blank" rel="noopener">
-      <div class="banner-inner">
-        <img class="banner-img" src="four_sec.jpg" alt="-four sec-">
-        <div class="banner-overlay">
-          <div class="banner-name" style="font-size:22px">-four sec-</div>
-          <div class="banner-address">オンラインショップ</div>
-        </div>
+      <img class="banner-img" src="four_sec.jpg" alt="-four sec-">
+      <div class="banner-overlay">
+        <div class="banner-name" style="font-size:20px">-four sec-</div>
+        <div class="banner-address">オンラインショップ</div>
       </div>
       <div class="banner-arrow">
         <svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
       </div>
-      <!-- テープ：上中央、斜め5度、細め、花柄風 -->
-      <svg class="tape" style="top:-7px;left:50%;transform:translateX(-50%) rotate(5deg)" width="58" height="20" viewBox="0 0 58 20">
-        <rect x="0" y="2" width="58" height="16" rx="2" fill="#C8B89A" opacity="0.82"/>
-        <text x="8" y="14" font-size="9" fill="#A09070" opacity="0.6" font-family="serif">✿</text>
-        <text x="22" y="13" font-size="7" fill="#A09070" opacity="0.6" font-family="serif">✦</text>
-        <text x="34" y="14" font-size="9" fill="#A09070" opacity="0.6" font-family="serif">✿</text>
-        <text x="46" y="13" font-size="7" fill="#A09070" opacity="0.6" font-family="serif">✦</text>
-      </svg>
     </a>
 
   </div>
