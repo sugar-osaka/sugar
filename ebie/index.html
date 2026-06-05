@@ -56,12 +56,14 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 
 /* 予約カード */
 .reserve-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.reserve-btn{display:flex;flex-direction:column;text-decoration:none;background:#fff;border:1.5px solid #E8EFE3;border-radius:12px;padding:14px 14px;transition:transform 0.15s}
+.reserve-wrap{position:relative;display:flex;flex-direction:column}
+.reserve-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#2E6040;z-index:0}
+.reserve-btn{display:flex;flex-direction:column;text-decoration:none;background:#E8EFE3;border:none;border-radius:12px;padding:14px 14px;transition:transform 0.15s;position:relative;z-index:1;flex:1}
 .reserve-btn:active{transform:scale(0.98)}
-.reserve-btn-label{font-size:10px;color:#b09a8a;font-family:'Yomogi',cursive;margin-bottom:4px;text-shadow:0 0 0.2px #b09a8a}
-.reserve-btn-name{font-family:'Caveat Brush',cursive;font-size:20px;color:#7A9A60;line-height:1.2}
-.reserve-btn-name span{font-family:'Yomogi',cursive;font-size:16px;text-shadow:0 0 0.6px #7A9A60;-webkit-text-stroke:0.3px #7A9A60}
-.reserve-btn-arrow{font-size:11px;color:#b09a8a;margin-top:auto;padding-top:8px;text-align:right;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #b09a8a}
+.reserve-btn-label{font-size:10px;color:#4A7040;font-family:'Yomogi',cursive;margin-bottom:4px;text-shadow:0 0 0.2px #4A7040}
+.reserve-btn-name{font-family:'Caveat Brush',cursive;font-size:20px;color:#2E6040;line-height:1.2}
+.reserve-btn-name span{font-family:'Yomogi',cursive;font-size:16px;text-shadow:0 0 0.6px #2E6040;-webkit-text-stroke:0.3px #2E6040}
+.reserve-btn-arrow{font-size:11px;color:#4A7040;margin-top:auto;padding-top:8px;text-align:right;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #4A7040}
 
 /* リンクボタン群 */
 .links{display:flex;flex-direction:column;gap:10px}
@@ -132,7 +134,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
       <div class="access-address">大阪府大阪市福島区海老江5-3-10 西本ビル1階</div>
       <div class="access-station">JR東西線「海老江駅」2番出口から徒歩約1分</div>
       <div class="access-station-2">千日前線「野田阪神駅」/ 阪神本線「野田駅」から徒歩約5分</div>
-      <div style="text-align:right">
+      <div style="text-align:right;margin-top:10px">
         <a class="map-btn" href="https://maps.app.goo.gl/p5q52sH4MQPigsN2A" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
           Google マップで開く
@@ -145,16 +147,20 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   <div class="section">
     <div class="section-title">RESERVE</div>
     <div class="reserve-row">
-      <a class="reserve-btn" href="https://www.tablecheck.com/ja/cafesugar-fukushima-pickup/reserve/message" target="_blank" rel="noopener">
-        <div class="reserve-btn-label">TAKEOUT</div>
-        <div class="reserve-btn-name"><span>テイクアウト予約</span></div>
-        <div class="reserve-btn-arrow">予約ページへ →</div>
-      </a>
-      <a class="reserve-btn" href="https://www.tablecheck.com/ja/cafesugar-fukushima/reserve/message" target="_blank" rel="noopener">
-        <div class="reserve-btn-label">EAT IN</div>
-        <div class="reserve-btn-name"><span>イートイン予約</span></div>
-        <div class="reserve-btn-arrow">予約ページへ →</div>
-      </a>
+      <div class="reserve-wrap">
+        <a class="reserve-btn" href="https://www.tablecheck.com/ja/cafesugar-fukushima-pickup/reserve/message" target="_blank" rel="noopener">
+          <div class="reserve-btn-label">TAKEOUT</div>
+          <div class="reserve-btn-name"><span>テイクアウト予約</span></div>
+          <div class="reserve-btn-arrow">予約ページへ →</div>
+        </a>
+      </div>
+      <div class="reserve-wrap">
+        <a class="reserve-btn" href="https://www.tablecheck.com/ja/cafesugar-fukushima/reserve/message" target="_blank" rel="noopener">
+          <div class="reserve-btn-label">EAT IN</div>
+          <div class="reserve-btn-name"><span>イートイン予約</span></div>
+          <div class="reserve-btn-arrow">予約ページへ →</div>
+        </a>
+      </div>
     </div>
   </div>
 
