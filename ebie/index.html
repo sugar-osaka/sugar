@@ -99,6 +99,25 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .uber-btn-arrow svg{width:14px;height:14px;stroke:#ccc;fill:none}
 
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
+/* 今日のお知らせ */
+.today-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fff;border:1.5px solid #E8EFE3;border-radius:10px;margin-bottom:6px;cursor:pointer;transition:opacity 0.15s}
+.today-item:active{opacity:0.7}
+.today-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.today-icon svg{width:20px;height:20px}
+.today-name{font-family:'Yomogi',cursive;font-size:13px;color:#432f2f;flex:1;text-shadow:0 0 0.2px #432f2f}
+.today-hours{font-family:'Yomogi',cursive;font-size:11px;color:#9a8070}
+/* ポップアップ */
+.tp-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.25);z-index:100;opacity:0;visibility:hidden;transition:opacity 0.15s,visibility 0.15s}
+.tp-overlay.is-open{opacity:1;visibility:visible}
+.tp-card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.96);z-index:101;background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-family:'Yomogi',cursive;width:min(280px,calc(100vw - 32px));opacity:0;visibility:hidden;transition:opacity 0.12s,transform 0.12s,visibility 0.12s}
+.tp-card.is-visible{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
+.tp-close{position:absolute;top:4px;right:6px;background:none;border:none;font-size:20px;color:#ccc;cursor:pointer;line-height:1}
+.tp-body{display:flex;align-items:flex-start;gap:10px}
+.tp-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.tp-icon svg{width:100%;height:100%}
+.tp-name{font-size:15px;color:#432f2f;line-height:1.4}
+.tp-hours{font-size:12px;color:#432f2f;opacity:0.7;margin-top:4px}
+.tp-memo{margin-top:8px;padding-top:8px;border-top:1px solid #f0ebe8;font-size:12px;color:#888;line-height:1.6}
 </style>
 </head>
 <body>
@@ -121,6 +140,12 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
   <!-- 営業時間 -->
   <div class="section">
+    <!-- 今日のお知らせ -->
+    <div id="today-notice-section" style="display:none;margin-bottom:1rem">
+      <div class="section-title">TODAY</div>
+      <div id="today-notice-list"></div>
+    </div>
+
     <div class="section-title">HOURS</div>
     <div class="hours-card">
       <div id="hours-content"><div class="hours-loading">読み込み中...</div></div>
@@ -226,6 +251,20 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 </div>
 <footer>© sugar</footer>
 
+<!-- 今日のお知らせ ポップアップ -->
+<div class="tp-overlay" id="tp-overlay"></div>
+<div class="tp-card" id="tp-card">
+  <button class="tp-close" id="tp-close">×</button>
+  <div class="tp-body">
+    <div class="tp-icon" id="tp-icon"></div>
+    <div>
+      <div class="tp-name" id="tp-name"></div>
+      <div class="tp-hours" id="tp-hours"></div>
+    </div>
+  </div>
+  <div class="tp-memo" id="tp-memo" style="display:none"></div>
+</div>
+
 <script>
 var CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRXaoNmu-0-jF6TIvDPoU4ysQ0822c1QPgXajACwGNaj42z-ArKo1IBqUNq8BF5ynApVTIYSodpijt-/pub?gid=0&single=true&output=csv';
 var MASTER_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRXaoNmu-0-jF6TIvDPoU4ysQ0822c1QPgXajACwGNaj42z-ArKo1IBqUNq8BF5ynApVTIYSodpijt-/pub?gid=160892631&single=true&output=csv';
@@ -276,23 +315,115 @@ function renderHours(){
 
 function parseCSV(text){
   var rows=text.trim().split('\n');
+  var todayItems=[];
+  var now=new Date();
+  var ymd=now.getFullYear()+'-'+(('0'+(now.getMonth()+1)).slice(-2))+'-'+(('0'+now.getDate()).slice(-2));
+  var kindMap={'固定営業':'fixed','臨時休業':'closed','非表示':'off','営業時間変更':'time','臨時営業&イベント(アイコン表示)':'extra','イベント(帯表示)':'event','臨時営業':'extra','イベント':'event'};
   for(var i=1;i<rows.length;i++){
     var cols=rows[i].split(',');
     var shopRaw=(cols[2]||'').trim().toLowerCase();
     if(shopRaw!=='ebie') continue;
     var kindRaw=(cols[3]||'').trim();
-    if(kindRaw!=='固定営業') continue;
+    var kind=kindMap[kindRaw]||kindRaw.toLowerCase();
     var targetRaw=(cols[4]||'').trim();
     var daysRaw=(cols[5]||'').trim();
     var hoursRaw=(cols[6]||'').trim();
-    var targetKey=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
-    var days=daysRaw?daysRaw.split('').map(function(c){return DAY_NAMES.indexOf(c);}).filter(function(d){return d>=0;}):[]; 
-    var existing=shopItems.find(function(x){return x.type===targetKey;});
-    if(!existing){shopItems.push({type:targetKey,name:targetRaw||targetKey,days:days,hours:hoursRaw});}
-    if(days.length>0) dayOverrides[targetKey]=days;
+    var eventName=(cols[7]||'').trim();
+    var dateFrom=(cols[8]||'').trim();
+    var dateTo=(cols[9]||'').trim();
+    // 固定営業
+    if(kind==='fixed'){
+      var targetKey=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
+      var days=daysRaw?daysRaw.split('').map(function(c){return DAY_NAMES.indexOf(c);}).filter(function(d){return d>=0;}):[]; 
+      var existing=shopItems.find(function(x){return x.type===targetKey;});
+      if(!existing){shopItems.push({type:targetKey,name:targetRaw||targetKey,days:days,hours:hoursRaw});}
+      if(days.length>0) dayOverrides[targetKey]=days;
+    }
+    // 今日の特別データ（臨時営業・イベント・臨時休業）
+    if(kind==='extra'||kind==='event'||kind==='closed'){
+      if(!dateFrom) continue;
+      var dtTo=dateTo||dateFrom;
+      if(ymd>=dateFrom&&ymd<=dtTo){
+        var targetKey2=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
+        todayItems.push({kind:kind,type:targetKey2,name:kind==='event'?(eventName||targetRaw):kind==='closed'?'臨時休業':targetRaw,hours:hoursRaw,eventName:eventName});
+      }
+    }
   }
   renderHours();
+  renderTodayNotice(todayItems);
 }
+
+function renderTodayNotice(items){
+  if(!items||items.length===0) return;
+  var section=document.getElementById('today-notice-section');
+  var list=document.getElementById('today-notice-list');
+  if(!section||!list) return;
+  var html='';
+  items.forEach(function(item,idx){
+    var color=item.kind==='closed'?'#AF011C':item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
+    var bgColor=color+'22';
+    var svgStr='';
+    if(item.kind==='closed'){
+      svgStr='<span style="color:#fcebed;font-size:14px;font-weight:bold;font-family:Yomogi,cursive">休</span>';
+    } else if(item.kind==='event'){
+      svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">EVENT</span>';
+      bgColor='#fcc800';
+    } else if(SVG[item.type]){
+      svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
+    }
+    html+='<div class="today-item" onclick="openTodayPopup('+idx+')">';
+    html+='<div class="today-icon" style="background:'+bgColor+'">'+svgStr+'</div>';
+    html+='<div class="today-name">'+item.name+'</div>';
+    if(item.hours) html+='<div class="today-hours">'+item.hours+'</div>';
+    html+='</div>';
+  });
+  list.innerHTML=html;
+  section.style.display='block';
+  window._todayItems=items;
+}
+
+function openTodayPopup(idx){
+  var items=window._todayItems||[];
+  var item=items[idx];
+  if(!item) return;
+  var color=item.kind==='closed'?'#AF011C':item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
+  var iconEl=document.getElementById('tp-icon');
+  iconEl.innerHTML='';
+  iconEl.style.background=color+'22';
+  if(item.kind==='closed'){
+    iconEl.style.background='#AF011C';
+    iconEl.innerHTML='<span style="color:#fcebed;font-size:14px;font-weight:bold;font-family:Yomogi,cursive">休</span>';
+  } else if(item.kind==='event'){
+    iconEl.style.background='#fcc800';
+    iconEl.innerHTML='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px">EVENT</span>';
+  } else if(SVG[item.type]){
+    var svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"').replace(/<svg([^>]*)>/,'<svg$1 width="100%" height="100%">');
+    iconEl.innerHTML=svgStr;
+  }
+  document.getElementById('tp-name').textContent=item.name;
+  document.getElementById('tp-hours').textContent=item.hours||'';
+  var memoEl=document.getElementById('tp-memo');
+  if(item.eventName&&item.kind!=='event'){
+    memoEl.textContent=item.eventName;
+    memoEl.style.display='block';
+  } else {
+    memoEl.style.display='none';
+  }
+  document.getElementById('tp-overlay').classList.add('is-open');
+  document.getElementById('tp-card').classList.add('is-visible');
+}
+
+function closeTodayPopup(){
+  document.getElementById('tp-overlay').classList.remove('is-open');
+  document.getElementById('tp-card').classList.remove('is-visible');
+}
+
+document.addEventListener('DOMContentLoaded',function(){
+  var overlay=document.getElementById('tp-overlay');
+  var closeBtn=document.getElementById('tp-close');
+  if(overlay) overlay.addEventListener('click',closeTodayPopup);
+  if(closeBtn) closeBtn.addEventListener('click',closeTodayPopup);
+});
 
 function parseMaster(text){
   var rows=text.trim().split('\n');
