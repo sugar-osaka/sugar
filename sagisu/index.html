@@ -43,6 +43,12 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 /* 営業時間カード */
 .hours-card{background:#fff;border:1.5px solid #f0ebe8;border-radius:12px;padding:14px 16px}
 .hours-loading{color:#ccc;font-size:12px;padding:8px 0}
+.loading-wrap{display:flex;flex-direction:column;gap:8px;padding:12px 0}
+.loading-bar{height:10px;border-radius:6px;background:linear-gradient(90deg,#f0ede8 25%,#e8e3dc 50%,#f0ede8 75%);background-size:200% 100%;animation:shimmer 1.4s infinite}
+.loading-bar.short{width:40%}
+.loading-bar.mid{width:65%}
+.loading-bar.long{width:85%}
+@keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
 .info-rows{display:table;width:100%}
 .info-row{display:table-row}
 .info-icon{display:table-cell;width:32px;vertical-align:middle;padding:5px 6px 5px 0}
@@ -146,15 +152,25 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
   <!-- 営業時間 -->
   <div class="section">
+    <!-- ローディング -->
+    <div id="hours-loading-wrap" class="loading-wrap">
+      <div class="loading-bar long"></div>
+      <div class="loading-bar mid"></div>
+      <div class="loading-bar short"></div>
+      <div class="loading-bar long"></div>
+    </div>
+
     <!-- 今日のお知らせ -->
     <div id="today-notice-section" style="display:none;margin-bottom:1rem">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.6rem"><div class="section-title" style="margin-bottom:0">TODAY</div><div style="font-size:9px;color:#b09a8a;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #b09a8a">アイコンを押すと詳細を確認できます</div></div>
       <table id="today-notice-list" class="today-rows" style="background:#fff;border:1.5px solid #F5E6E8;border-radius:10px;overflow:hidden;padding:0 14px"></table>
     </div>
 
-    <div class="section-title">HOURS</div>
-    <div class="hours-card">
-      <div id="hours-content"><div class="hours-loading">読み込み中...</div></div>
+    <!-- HOURS -->
+    <div id="hours-section" style="display:none">
+      <div class="section-title">HOURS</div>
+      <div class="hours-card">
+        <div id="hours-content"></div>
       <div style="text-align:right;margin-top:10px">
         <a class="map-btn" href="https://sugar-osaka.github.io/sugar-calendar/" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
@@ -162,7 +178,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
         </a>
       </div>
     </div>
-  </div>
+    </div><!-- /hours-section -->
 
   <!-- アクセス -->
   <div class="section">
@@ -279,6 +295,10 @@ function daysToDotsHTML(days,color){
 
 function renderHours(){
   var el=document.getElementById('hours-content');
+  var loadingWrap=document.getElementById('hours-loading-wrap');
+  var hoursSection=document.getElementById('hours-section');
+  if(loadingWrap) loadingWrap.style.display='none';
+  if(hoursSection) hoursSection.style.display='block';
   if(!shopItems||shopItems.length===0){el.innerHTML='<div class="hours-loading">営業情報を取得できませんでした</div>';return;}
   var h='<div class="info-rows">';
   shopItems.forEach(function(item){
@@ -487,14 +507,15 @@ function loadData(){
   var csvFresh=cachedCSV&&(Date.now()-parseInt(cacheGet(CACHE_TIME_KEY)||'0'))<CACHE_DURATION;
 
   if(masterFresh) parseMaster(cachedMaster);
-  if(csvFresh){parseCSV(cachedCSV);return;}
+  if(cachedCSV) parseCSV(cachedCSV);
+  if(csvFresh) return;
 
   var fetchMaster=masterFresh?Promise.resolve(cachedMaster):fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){cacheSet(MASTER_CACHE_KEY,t);cacheSet(MASTER_CACHE_TIME_KEY,Date.now().toString());return t;}).catch(function(){return cachedMaster||'';});
 
   fetchMaster.then(function(t){
     if(t&&!masterFresh) parseMaster(t);
     return fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){cacheSet(CACHE_KEY,t);cacheSet(CACHE_TIME_KEY,Date.now().toString());return t;});
-  }).then(function(t){parseCSV(t);}).catch(function(){if(cachedCSV)parseCSV(cachedCSV);else renderHours();});
+  }).then(function(t){parseCSV(t);}).catch(function(){if(!cachedCSV)renderHours();});
 }
 loadData();
 </script>
