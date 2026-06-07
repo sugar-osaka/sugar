@@ -312,9 +312,9 @@ function parseCSV(text){
     var daysRaw=(cols[5]||'').trim();
     var hoursRaw=(cols[6]||'').trim();
     var eventName=(cols[7]||'').trim();
-    var dateFrom=(cols[8]||'').trim();
-    var dateTo=(cols[9]||'').trim();
-    if(!/^https?:\/\//i.test(dateFrom)&&kind==='fixed'){
+    var dateFrom=(cols[0]||'').trim().replace(/\//g,'-');
+    var dateTo=(cols[1]||'').trim().replace(/\//g,'-');
+    if(kind==='fixed'){
       // 固定営業
       var targetKey=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
       var days=daysRaw?daysRaw.split('').map(function(c){return DAY_NAMES.indexOf(c);}).filter(function(d){return d>=0;}):[]; 
@@ -323,7 +323,7 @@ function parseCSV(text){
       if(days.length>0) dayOverrides[targetKey]=days;
     }
     if(kind==='extra'||kind==='event'||kind==='closed'){
-      if(!dateFrom||/^https?:\/\//i.test(dateFrom)) continue;
+      if(!dateFrom) continue;
       var dtTo=dateTo||dateFrom;
       if(ymd>=dateFrom&&ymd<=dtTo){
         var targetKey2=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
