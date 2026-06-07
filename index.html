@@ -177,7 +177,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 .slider-wrap{width:100%;overflow:hidden;margin:1.5rem 0;cursor:grab}
 .slider-wrap:active{cursor:grabbing}
 .slider-track{display:flex;gap:8px;will-change:transform}
-.slider-track img{width:200px;height:200px;object-fit:cover;flex-shrink:0;display:block;border-radius:4px}
+.slider-track img{width:150px;height:150px;object-fit:cover;flex-shrink:0;display:block;border-radius:4px}
 </style>
 
 <script>
@@ -202,7 +202,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     });
   });
 
-  var itemW = 200 + 8;
+  var itemW = 150 + 8;
   var totalW = itemW * srcs.length;
   var pos = totalW;
   track.style.transform = 'translateX(-'+pos+'px)';
@@ -234,7 +234,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   function onEnd(){ dragging=false; }
 
   track.addEventListener('touchstart',function(e){onStart(e.touches[0].clientX);},{passive:true});
-  track.addEventListener('touchmove',function(e){onMove(e.touches[0].clientX);},{passive:true});
+  track.addEventListener('touchmove',function(e){e.preventDefault();onMove(e.touches[0].clientX);},{passive:false});
   track.addEventListener('touchend',onEnd);
   track.addEventListener('mousedown',function(e){onStart(e.clientX);});
   track.addEventListener('mousemove',function(e){onMove(e.clientX);});
