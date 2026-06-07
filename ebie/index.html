@@ -107,17 +107,21 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 .today-name{font-family:'Yomogi',cursive;font-size:13px;color:#432f2f;flex:1;text-shadow:0 0 0.2px #432f2f}
 .today-hours{font-family:'Yomogi',cursive;font-size:11px;color:#9a8070}
 /* ポップアップ */
-.tp-overlay{position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,0.25);z-index:100;opacity:0;visibility:hidden;transition:opacity 0.15s,visibility 0.15s}
-.tp-overlay.is-open{opacity:1;visibility:visible}
-.tp-card{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%) scale(0.96);z-index:101;background:#fff;border-radius:12px;padding:14px 16px;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-family:'Yomogi',cursive;width:min(280px,calc(100vw - 32px));opacity:0;visibility:hidden;transition:opacity 0.12s,transform 0.12s,visibility 0.12s}
-.tp-card.is-visible{opacity:1;visibility:visible;transform:translate(-50%,-50%) scale(1)}
-.tp-close{position:absolute;top:4px;right:6px;background:none;border:none;font-size:20px;color:#ccc;cursor:pointer;line-height:1}
-.tp-body{display:flex;align-items:flex-start;gap:10px}
-.tp-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.tp-icon svg{width:100%;height:100%}
-.tp-name{font-size:15px;color:#432f2f;line-height:1.4}
-.tp-hours{font-size:12px;color:#432f2f;opacity:0.7;margin-top:4px}
-.tp-memo{margin-top:8px;padding-top:8px;border-top:1px solid #f0ebe8;font-size:12px;color:#888;line-height:1.6}
+.popup-overlay{position:fixed;top:-3px;left:0;right:0;bottom:-3px;width:100%;min-height:100vh;min-height:100dvh;min-height:-webkit-fill-available;background:rgba(0,0,0,0.25);z-index:100;margin:0;padding:0;border:none;opacity:0;visibility:hidden;transition:opacity 0.15s,visibility 0.15s;-webkit-tap-highlight-color:transparent}
+.popup-overlay.is-open{opacity:1;visibility:visible}
+.popup-card{position:fixed;left:0;top:0;z-index:101;background:#fff;border-radius:12px;padding:10px 12px 12px;box-shadow:0 4px 20px rgba(0,0,0,0.12);font-family:'Yomogi',cursive;width:auto;max-width:min(280px,calc(100vw - 16px));opacity:0;visibility:hidden;transform:scale(0.96);transition:opacity 0.12s,transform 0.12s,visibility 0.12s;pointer-events:none}
+.popup-body{display:flex;align-items:flex-start;gap:10px;padding-right:18px}
+.popup-text{min-width:0;flex:1}
+.popup-name{font-size:16px;color:#432f2f;line-height:1.35;font-family:'Yomogi',cursive;white-space:normal;word-break:break-word;overflow-wrap:anywhere}
+.popup-hours{font-size:13px;color:#432f2f;opacity:0.7;margin-top:2px;letter-spacing:0.04em;line-height:1.5;white-space:normal;word-break:break-word}
+.popup-card.is-visible{opacity:1;visibility:visible;transform:scale(1);pointer-events:auto}
+.popup-close{position:absolute;top:2px;right:2px;width:26px;height:26px;border:none;background:none;color:#ccc;font-size:20px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;font-family:sans-serif}
+.popup-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;overflow:hidden}
+.popup-icon svg{width:100%;height:100%;display:block}
+.popup-reserve{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:4px 10px;background:#7A9A60;color:#fff;border-radius:20px;font-size:11px;font-family:'Yomogi',cursive;text-decoration:none;line-height:1.4}
+.popup-reserve svg{width:11px;height:11px;stroke:#fff;fill:none;flex-shrink:0;opacity:0.85}
+.popup-memo{margin-top:7px;padding-top:7px;border-top:1px solid #f0ebe8;font-size:12px;color:#888;font-family:'Yomogi',cursive;line-height:1.6;display:none}
+.popup-memo.has-memo{display:block}
 </style>
 </head>
 <body>
@@ -252,32 +256,27 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 <footer>© sugar</footer>
 
 <!-- 今日のお知らせ ポップアップ -->
-<div class="tp-overlay" id="tp-overlay"></div>
-<div class="tp-card" id="tp-card">
-  <button class="tp-close" id="tp-close">×</button>
-  <div class="tp-body">
-    <div class="tp-icon" id="tp-icon"></div>
-    <div>
-      <div class="tp-name" id="tp-name"></div>
-      <div class="tp-hours" id="tp-hours"></div>
+<div class="popup-overlay" id="popup-overlay" aria-hidden="true"></div>
+<div class="popup-card" id="popup-card" role="dialog" aria-modal="true">
+  <button type="button" class="popup-close" id="popup-close" aria-label="閉じる">&times;</button>
+  <div class="popup-body">
+    <div class="popup-icon" id="popup-icon"></div>
+    <div class="popup-text">
+      <div class="popup-name" id="popup-name"></div>
+      <div class="popup-hours" id="popup-hours"></div>
     </div>
   </div>
-  <div class="tp-memo" id="tp-memo" style="display:none"></div>
+  <div class="popup-memo" id="popup-memo"></div>
+  <div id="popup-reserve-wrap" style="display:none;text-align:right;margin-top:7px;padding-top:7px;border-top:1px solid #f0ebe8">
+    <a class="popup-reserve" id="popup-reserve" href="#" target="_blank" rel="noopener noreferrer">予約はこちら<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;stroke:#fff;fill:none;flex-shrink:0;opacity:0.85;vertical-align:middle;margin-left:3px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
+  </div>
 </div>
 
 <script>
 var CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRXaoNmu-0-jF6TIvDPoU4ysQ0822c1QPgXajACwGNaj42z-ArKo1IBqUNq8BF5ynApVTIYSodpijt-/pub?gid=0&single=true&output=csv';
 var MASTER_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRXaoNmu-0-jF6TIvDPoU4ysQ0822c1QPgXajACwGNaj42z-ArKo1IBqUNq8BF5ynApVTIYSodpijt-/pub?gid=160892631&single=true&output=csv';
-var COLORS={whole_cake:'#B85366',crepe:'#A87C28',muffin:'#A6834F',takeout:'#C22047',cafe:'#6B8294',KIMAGURE_cafe:'#A68A6F',coffee_cup:'#7A8C3E',cookie:'#C68642',gift:'#B85C8A',sugar:'#B8860B',scone:'#6B7A3E',chiffon_cake:'#2E7D52'};
-var SVG={
-  whole_cake:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="9" x2="8" y2="5"/><line x1="12" y1="9" x2="12" y2="4"/><line x1="16" y1="9" x2="16" y2="5"/><path d="M7 4.5 Q8 3 9 4.5"/><path d="M11 3 Q12 1.5 13 3"/><path d="M15 4.5 Q16 3 17 4.5"/><rect x="3" y="9" width="18" height="11" rx="2.5"/><path d="M3 13 Q7 11 12 13 Q17 11 21 13"/><line x1="3" y1="16" x2="21" y2="16"/></svg>',
-  crepe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10 L12 22 L19 10 Z"/><path d="M5 10 Q12 7 19 10"/><path d="M7 10 Q9 8 12 8 Q15 8 17 10"/><path d="M8 7 Q8 4 10 4 Q12 3 14 4 Q16 4 16 7"/><path d="M9 6 Q10 4.5 12 4.5 Q14 4.5 15 6"/><circle cx="10" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',
-  takeout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="4" rx="1"/><rect x="3" y="11" width="18" height="4" rx="0.5"/><path d="M3 11 L12 5 L21 11"/><path d="M3 11 Q7 9.5 12 10.5 Q17 9.5 21 11"/><ellipse cx="12" cy="5.5" rx="3" ry="3.5" fill="currentColor" stroke="none"/><path d="M10.5 3 Q12 1.8 13.5 3" stroke="currentColor" stroke-width="1" fill="none"/></svg>',
-  cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M10 5 Q10 3 12 3 Q12 5 10 5"/></svg>',
-  KIMAGURE_cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M9 5 Q11 2 13 5"/></svg>',
-  muffin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13 L8 21 L16 21 L17 13 Z"/><line x1="10" y1="13" x2="9.5" y2="21"/><line x1="12" y1="13" x2="12" y2="21"/><line x1="14" y1="13" x2="14.5" y2="21"/><path d="M7 13 Q5 13 5 10 Q5 7 8 6 Q9 3 12 3 Q15 3 16 6 Q19 7 19 10 Q19 13 17 13 Q15 14 12 14 Q9 14 7 13 Z"/><path d="M8 7 Q9 5.5 11 6"/><path d="M14 5.5 Q15.5 6.5 15 8"/></svg>',
-  chiffon_cake:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="10" rx="8" ry="5"/><path d="M4 10 Q4 18 12 18 Q20 18 20 10"/><ellipse cx="12" cy="10" rx="3" ry="2"/></svg>'
-};
+var COLORS={whole_cake:'#B85366',crepe:'#A87C28',muffin:'#A6834F',takeout:'#C22047',cafe:'#6B8294',KIMAGURE_cafe:'#A68A6F',coffee_cup:'#7A8C3E',cookie:'#C68642',gift:'#B85C8A',Christmas:'#3A7D44',KODOMO_NO_HI:'#2980b9',HINAMATSURI:'#FFD6E0',valentine:'#C0392B',whiteday:'#4A90C0',OSHOGATSU:'#8B6914',sugar:'#B8860B',scone:'#6B7A3E',sumer:'#FF8C55',Halloween:'#C07800',mothers_day:'#C45E8A',fathers_day:'#1565C0',SETSUBUN:'#C45000',chiffon_cake:'#2E7D52'};
+var SVG={whole_cake:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="9" x2="8" y2="5"/><line x1="12" y1="9" x2="12" y2="4"/><line x1="16" y1="9" x2="16" y2="5"/><path d="M7 4.5 Q8 3 9 4.5"/><path d="M11 3 Q12 1.5 13 3"/><path d="M15 4.5 Q16 3 17 4.5"/><rect x="3" y="9" width="18" height="11" rx="2.5"/><path d="M3 13 Q7 11 12 13 Q17 11 21 13"/><line x1="3" y1="16" x2="21" y2="16"/></svg>',crepe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10 L12 22 L19 10 Z"/><path d="M5 10 Q12 7 19 10"/><path d="M7 10 Q9 8 12 8 Q15 8 17 10"/><path d="M8 7 Q8 4 10 4 Q12 3 14 4 Q16 4 16 7"/><path d="M9 6 Q10 4.5 12 4.5 Q14 4.5 15 6"/><circle cx="10" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',muffin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13 L8 21 L16 21 L17 13 Z"/><line x1="10" y1="13" x2="9.5" y2="21"/><line x1="12" y1="13" x2="12" y2="21"/><line x1="14" y1="13" x2="14.5" y2="21"/><path d="M7 13 Q5 13 5 10 Q5 7 8 6 Q9 3 12 3 Q15 3 16 6 Q19 7 19 10 Q19 13 17 13 Q15 14 12 14 Q9 14 7 13 Z"/><path d="M8 7 Q9 5.5 11 6"/><path d="M14 5.5 Q15.5 6.5 15 8"/></svg>',takeout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="4" rx="1"/><rect x="3" y="11" width="18" height="4" rx="0.5"/><path d="M3 11 L12 5 L21 11"/><path d="M3 11 Q7 9.5 12 10.5 Q17 9.5 21 11"/><ellipse cx="12" cy="5.5" rx="3" ry="3.5" fill="currentColor" stroke="none"/><path d="M10.5 3 Q12 1.8 13.5 3" stroke="currentColor" stroke-width="1" fill="none"/></svg>',cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M10 5 Q10 3 12 3 Q12 5 10 5"/></svg>',KIMAGURE_cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M9 5 Q11 2 13 5"/></svg>',coffee_cup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8 L19 8 L17 19 L7 19 Z"/><path d="M19 10 Q23 10 23 14 Q23 18 19 18"/><line x1="3" y1="22" x2="21" y2="22"/><path d="M9 5 Q9 3 11 3 Q11 5 13 5 Q13 3 15 3"/></svg>',cookie:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="14" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="14" r="1.2" fill="currentColor" stroke="none"/><circle cx="11" cy="17" r="0.9" fill="currentColor" stroke="none"/></svg>',gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="11" rx="1.5"/><rect x="2" y="6" width="20" height="4" rx="1"/><line x1="12" y1="6" x2="12" y2="21"/><path d="M12 6 Q10 3 8 4 Q6 5 8 6 Q10 7 12 6"/><path d="M12 6 Q14 3 16 4 Q18 5 16 6 Q14 7 12 6"/></svg>',Christmas:'<svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 17,9 7,9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12,6 18,14 6,14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12,11 19,20 5,20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="10.5" y="20" width="3" height="2.5" rx="0.5" stroke="currentColor" stroke-width="1.6"/><polygon points="12,0 12.7,1.8 14.7,1.8 13.2,3 13.8,5 12,3.8 10.2,5 10.8,3 9.3,1.8 11.3,1.8" fill="#FFA500" stroke="#FFA500" stroke-width="0.3"/></svg>',KODOMO_NO_HI:'<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="1" x2="3" y2="27"/><circle cx="3" cy="1.8" r="1.6" fill="currentColor" stroke="none"/><path d="M3 5 L5 4.5 Q16 3.5 22 7 Q25 9 22 11.5 Q16 15 5 14 L3 13.5 Z" fill="currentColor" stroke="none"/><path d="M22 7 L26 6 L22 10" fill="currentColor" stroke="none"/><circle cx="7" cy="9" r="1.6" fill="white" stroke="none"/><path d="M11 6.5 Q15 8 15 9.5 Q15 11 11 12" stroke="white" stroke-width="1.1" fill="none"/><path d="M3 16 L5 15.5 Q14 14.5 20 17.5 Q23 19.5 20 22 Q14 25.5 5 24.5 L3 24 Z" fill="currentColor" stroke="none"/><path d="M20 17.5 L23 16.5 L20 21" fill="currentColor" stroke="none"/><circle cx="7" cy="20" r="1.4" fill="white" stroke="none"/><path d="M11 17.5 Q14 19 14 20.5 Q14 22 11 22.5" stroke="white" stroke-width="1.1" fill="none"/></svg>',HINAMATSURI:'<svg viewBox="0 0 24 24"><g transform="translate(12,12)"><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(0)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(72)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(144)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(216)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(288)"/><circle cx="0" cy="0" r="2.4" fill="currentColor"/></g></svg>',valentine:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 Q5 13 5 8 Q5 5 7.5 4 Q10 3 12 6 Q14 3 16.5 4 Q19 5 19 8 Q19 13 12 19 Z"/></svg>',whiteday:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 Q5 13 5 8 Q5 5 7.5 4 Q10 3 12 6 Q14 3 16.5 4 Q19 5 19 8 Q19 13 12 19 Z"/></svg>',OSHOGATSU:'<svg viewBox="2 1 20 23" fill="none"><rect x="5" y="20" width="14" height="3" rx="1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5,16 Q7,19.5 12,19.8 Q17,19.5 17.5,16 Q17,14 15.5,13.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5,13.2 Q7,14 6.5,16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11" r="3.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="6.5" r="2" fill="#F5820A" stroke="#D96B00" stroke-width="0.8"/><line x1="12" y1="4.5" x2="12" y2="3.5" stroke="#3A7D44" stroke-width="1.2" stroke-linecap="round"/></svg>',sugar:'<svg viewBox="0 0 52 24"><text x="50%" y="55%" font-size="13" font-family="Caveat Brush,cursive" fill="#ffffff" stroke="none" text-anchor="middle" dominant-baseline="middle">sugar</text></svg>',scone:'<svg viewBox="22 24 58 52" fill="none"><path d="M32,72 C24,70 20,54 25,44 C30,34 40,28 50,26 C60,24 72,30 76,42 C80,52 78,68 68,72 C58,76 40,74 32,72 Z" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24,48 Q35,51 50,52 Q62,48 76,42" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M26,62 C34,58 46,64 56,60" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',Halloween:'<svg viewBox="16 16 68 64" fill="none"><path d="M50,28 L50,20 C50,18 48,18 48,18 C46,18 46,20 46,20 L46,28" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40,28 C22,26 18,48 22,62 C26,76 44,78 50,72 C56,78 74,76 78,62 C82,48 78,26 60,28" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M36,40 C35.5,35 41,27 50,27 C59,27 64.5,35 64,40" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M38,68 C40,72 46,74 50,74 C54,74 60,72 62,68" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><polygon points="30,50 46,50 38,37" fill="currentColor"/><polygon points="54,50 70,50 62,37" fill="currentColor"/><polygon points="47,55 53,55 50,50" fill="currentColor"/><path d="M28,54 C32,68 68,68 72,54 C66,58 64,55 60,56 L60,60 L54,60 L54,57 L46,57 L46,60 L40,60 L40,56 C36,55 34,58 28,54 Z" fill="currentColor"/></svg>',sumer:'<svg viewBox="0 0 100 100"><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF8C55" transform="rotate(0,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FFD84D" transform="rotate(36,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF8C55" transform="rotate(72,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF6B9E" transform="rotate(108,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FFD84D" transform="rotate(144,50,50)"/><circle cx="50" cy="50" r="4" fill="#FFD84D"/></svg>',mothers_day:'<svg viewBox="25 10 50 75" fill="none"><g transform="rotate(-15,50,50)"><path d="M38,40 C32,40 28,34 32,28 C33,25 36,22 39,21 C40,18 42,16 44,18 C45,15 47,14 49,16 C50,13 52,13 53,16 C55,14 57,15 57,18 C59,16 62,17 62,20 C65,21 68,24 68,28 C72,34 68,40 62,40 C59,45 55,47 50,46 C45,47 41,45 38,40 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M45,45 C46,49 48,50 50,50 C52,50 54,49 55,45" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="50" y1="50" x2="50" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></g></svg>',fathers_day:'<svg viewBox="30 8 40 82" fill="none"><path d="M44,14 C42,10 58,10 56,14 L53,22 L64,68 L50,85 L36,68 L47,22 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M46,22 L54,22" stroke="white" stroke-width="3.5" stroke-linecap="round"/></svg>',SETSUBUN:'<svg viewBox="20 18 60 70" fill="none"><circle cx="50" cy="38" r="12" fill="currentColor"/><circle cx="36" cy="40" r="10.5" fill="currentColor"/><circle cx="64" cy="40" r="10.5" fill="currentColor"/><path d="M29,53 Q27,63 30,71 Q36,82 50,83 Q64,82 70,71 Q73,63 71,53 Q65,45 50,43 Q35,45 29,53 Z" fill="currentColor"/><circle cx="40" cy="64" r="2.5" fill="white"/><circle cx="60" cy="64" r="2.5" fill="white"/><path d="M42,72 Q50,78 58,72" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>',chiffon_cake:'<svg viewBox="1 2 22 22" fill="none"><ellipse cx="12" cy="7" rx="8.5" ry="3.6" stroke="currentColor" stroke-width="1.5"/><ellipse cx="12" cy="7" rx="2" ry="0.9" stroke="currentColor" stroke-width="1.5"/><path d="M 3.5,7 L 2.5,17 Q 3.5,22 12,22 Q 20.5,22 21.5,17 L 20.5,7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M 3,15.5 Q 5.5,14 7.5,15.5 Q 9.5,17 11.5,15.5 Q 13.5,14 15.5,15.5 Q 17.5,17 20,15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
 var TYPE_INFO={whole_cake:{name:'ホールケーキ',hours:'12:00-17:00'},crepe:{name:'クレープ',hours:'12:00-16:00'},takeout:{name:'テイクアウト',hours:'12:00-18:00'},cafe:{name:'イートイン',hours:'13:00-17:30'},KIMAGURE_cafe:{name:'気まぐれカフェ',hours:'12:00-16:30'},muffin:{name:'マフィン',hours:'12:00-18:00'},chiffon_cake:{name:'シフォンケーキ',hours:''}};
 var ICON_NAME_MAP={"ホールケーキ":"whole_cake","クレープ":"crepe","テイクアウト":"takeout","イートイン":"cafe","気まぐれカフェ":"KIMAGURE_cafe","マフィン":"muffin","コーヒー":"coffee_cup","クッキー":"cookie","ギフト":"gift","sugar":"sugar","スコーン":"scone","シフォンケーキ":"chiffon_cake"};
 var DAY_NAMES=['日','月','火','水','木','金','土'];
@@ -329,6 +328,7 @@ function parseCSV(text){
     var daysRaw=(cols[5]||'').trim();
     var hoursRaw=(cols[6]||'').trim();
     var eventName=(cols[7]||'').trim();
+    var memoRaw=(cols[9]||'').trim();
     var dateFrom=(cols[0]||'').trim().replace(/\//g,'-');
     var dateTo=(cols[1]||'').trim().replace(/\//g,'-');
     // 固定営業
@@ -345,7 +345,7 @@ function parseCSV(text){
       var dtTo=dateTo||dateFrom;
       if(ymd>=dateFrom&&ymd<=dtTo){
         var targetKey2=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
-        todayItems.push({kind:kind,type:targetKey2,name:kind==='event'?(eventName||targetRaw):kind==='closed'?'臨時休業':targetRaw,hours:hoursRaw,eventName:eventName});
+        todayItems.push({kind:kind,type:targetKey2,name:kind==='event'?(eventName||targetRaw):kind==='closed'?'臨時休業':targetRaw,hours:hoursRaw,eventName:eventName,memo:memoRaw,dateFrom:dateFrom,dateTo:dateTo});
       }
     }
   }
@@ -373,8 +373,11 @@ function renderTodayNotice(items){
     }
     html+='<div class="today-item" onclick="openTodayPopup('+idx+')">';
     html+='<div class="today-icon" style="background:'+bgColor+'">'+svgStr+'</div>';
-    html+='<div class="today-name">'+item.name+'</div>';
-    if(item.hours) html+='<div class="today-hours">'+item.hours+'</div>';
+    html+='<div style="flex:1;min-width:0"><div class="today-name">'+item.name+'</div>';
+    function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
+    var dateLabel=item.dateFrom?(item.dateTo&&item.dateTo!==item.dateFrom?fmtDate(item.dateFrom)+' 〜 '+fmtDate(item.dateTo):fmtDate(item.dateFrom)):'';
+    if(dateLabel||item.hours) html+='<div class="today-hours">'+(dateLabel?dateLabel+' ':'')+item.hours+'</div>';
+    html+='</div>';
     html+='</div>';
   });
   list.innerHTML=html;
@@ -387,41 +390,79 @@ function openTodayPopup(idx){
   var item=items[idx];
   if(!item) return;
   var color=item.kind==='closed'?'#AF011C':item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
-  var iconEl=document.getElementById('tp-icon');
+  var iconEl=document.getElementById('popup-icon');
+  iconEl.className='popup-icon';
+  iconEl.style.background='';
   iconEl.innerHTML='';
-  iconEl.style.background=color+'22';
   if(item.kind==='closed'){
     iconEl.style.background='#AF011C';
-    iconEl.innerHTML='<span style="color:#fcebed;font-size:14px;font-weight:bold;font-family:Yomogi,cursive">休</span>';
+    iconEl.style.color='#fcebed';
+    iconEl.style.fontSize='13px';
+    iconEl.style.fontWeight='bold';
+    iconEl.style.fontFamily='Yomogi,cursive';
+    iconEl.style.borderRadius='6px';
+    iconEl.textContent='休';
   } else if(item.kind==='event'){
     iconEl.style.background='#fcc800';
-    iconEl.innerHTML='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px">EVENT</span>';
+    iconEl.style.color='#432f2f';
+    iconEl.style.fontSize='8px';
+    iconEl.style.letterSpacing='-0.5px';
+    iconEl.style.borderRadius='10px';
+    iconEl.style.padding='0 4px';
+    iconEl.style.minWidth='28px';
+    iconEl.style.justifyContent='center';
+    iconEl.style.whiteSpace='nowrap';
+    iconEl.textContent='イベント';
   } else if(SVG[item.type]){
-    var svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"').replace(/<svg([^>]*)>/,'<svg$1 width="100%" height="100%">');
-    iconEl.innerHTML=svgStr;
+    iconEl.style.background=color+'22';
+    var svgStr=SVG[item.type].replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
+    var vbMatch=svgStr.match(/viewBox="([^"]+)"/);
+    var vb=vbMatch?vbMatch[1]:'0 0 24 24';
+    var vbW=parseFloat(vb.split(' ')[2]||24);
+    iconEl.innerHTML=svgStr.replace(/<svg([^>]*)>/,vbW>30?'<svg$1 width="100%" height="100%">':'<svg$1 width="20" height="20">');
   }
-  document.getElementById('tp-name').textContent=item.name;
-  document.getElementById('tp-hours').textContent=item.hours||'';
-  var memoEl=document.getElementById('tp-memo');
-  if(item.eventName&&item.kind!=='event'){
-    memoEl.textContent=item.eventName;
-    memoEl.style.display='block';
+  document.getElementById('popup-name').textContent=item.name;
+  function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
+  var dateLabel=item.dateFrom?(item.dateTo&&item.dateTo!==item.dateFrom?fmtDate(item.dateFrom)+' 〜 '+fmtDate(item.dateTo):fmtDate(item.dateFrom)):'';
+  document.getElementById('popup-hours').innerHTML=(dateLabel?'<span>'+dateLabel+'</span><br>':'')+item.hours;
+  var memoEl=document.getElementById('popup-memo');
+  var memo=item.memo||item.eventName||'';
+  if(memo){
+    memoEl.textContent='';
+    memo.split('|').map(function(s){return s.trim();}).filter(Boolean).forEach(function(line,i){
+      if(i>0) memoEl.appendChild(document.createElement('br'));
+      memoEl.appendChild(document.createTextNode(line));
+    });
+    memoEl.classList.add('has-memo');
   } else {
-    memoEl.style.display='none';
+    memoEl.textContent='';
+    memoEl.classList.remove('has-memo');
   }
-  document.getElementById('tp-overlay').classList.add('is-open');
-  document.getElementById('tp-card').classList.add('is-visible');
+  var reserveWrap=document.getElementById('popup-reserve-wrap');
+  reserveWrap.style.display='none';
+  var card=document.getElementById('popup-card');
+  var overlay=document.getElementById('popup-overlay');
+  card.classList.remove('is-visible');
+  overlay.classList.add('is-open');
+  // カード位置を中央に
+  card.style.left='50%';
+  card.style.top='50%';
+  card.style.transform='translate(-50%,-50%) scale(0.96)';
+  requestAnimationFrame(function(){
+    card.classList.add('is-visible');
+    card.style.transform='translate(-50%,-50%) scale(1)';
+  });
 }
 
 function closeTodayPopup(){
-  document.getElementById('tp-overlay').classList.remove('is-open');
-  document.getElementById('tp-card').classList.remove('is-visible');
+  document.getElementById('popup-overlay').classList.remove('is-open');
+  document.getElementById('popup-card').classList.remove('is-visible');
 }
 
 document.addEventListener('DOMContentLoaded',function(){
-  var overlay=document.getElementById('tp-overlay');
-  var closeBtn=document.getElementById('tp-close');
-  if(overlay) overlay.addEventListener('click',closeTodayPopup);
+  var overlay=document.getElementById('popup-overlay');
+  var closeBtn=document.getElementById('popup-close');
+  if(overlay) overlay.addEventListener('click',function(e){if(e.target===overlay)closeTodayPopup();});
   if(closeBtn) closeBtn.addEventListener('click',closeTodayPopup);
 });
 
