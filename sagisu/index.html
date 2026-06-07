@@ -509,14 +509,21 @@ function loadData(){
   var csvFresh=cachedCSV&&(Date.now()-parseInt(cacheGet(CACHE_TIME_KEY)||'0'))<CACHE_DURATION;
 
   if(masterFresh) parseMaster(cachedMaster);
-  if(csvFresh){parseCSV(cachedCSV);return;}
+
+  if(cachedCSV){ parseCSV(cachedCSV); }
+
+  if(csvFresh) return;
 
   var fetchMaster=masterFresh?Promise.resolve(cachedMaster):fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){cacheSet(MASTER_CACHE_KEY,t);cacheSet(MASTER_CACHE_TIME_KEY,Date.now().toString());return t;}).catch(function(){return cachedMaster||'';});
 
   fetchMaster.then(function(t){
     if(t&&!masterFresh) parseMaster(t);
     return fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){cacheSet(CACHE_KEY,t);cacheSet(CACHE_TIME_KEY,Date.now().toString());return t;});
-  }).then(function(t){parseCSV(t);}).catch(function(){if(cachedCSV)parseCSV(cachedCSV);else renderHours();});
+  }).then(function(newCSV){
+    if(newCSV !== cachedCSV) parseCSV(newCSV);
+  }).catch(function(){
+    if(!cachedCSV) renderHours();
+  });
 }
 loadData();
 </script>
