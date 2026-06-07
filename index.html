@@ -167,15 +167,17 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
 </div>
 
+<div class="wrap">
 <div class="slider-wrap">
   <div class="slider-track" id="slider-track"></div>
+</div>
 </div>
 
 <style>
 .slider-wrap{width:100%;overflow:hidden;margin:1.5rem 0;cursor:grab}
 .slider-wrap:active{cursor:grabbing}
 .slider-track{display:flex;gap:8px;will-change:transform}
-.slider-track img{width:280px;height:280px;object-fit:cover;flex-shrink:0;display:block;border-radius:4px}
+.slider-track img{width:200px;height:200px;object-fit:cover;flex-shrink:0;display:block;border-radius:4px}
 </style>
 
 <script>
@@ -200,12 +202,12 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     });
   });
 
-  var itemW = 280 + 8;
+  var itemW = 200 + 8;
   var totalW = itemW * srcs.length;
   var pos = totalW;
   track.style.transform = 'translateX(-'+pos+'px)';
 
-  var speed = 1.2;
+  var speed = 0.6;
   var dragging = false;
 
   function animate(){
