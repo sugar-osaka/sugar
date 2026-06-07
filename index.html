@@ -167,6 +167,48 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
 </div>
 
+<div class="slideshow-wrap">
+  <div class="slide-track-outer">
+    <div class="slide-track left" id="track-left"></div>
+  </div>
+</div>
+
+<style>
+.slideshow-wrap{width:100%;overflow:hidden;margin:1.5rem 0}
+.slide-track-outer{overflow:hidden;width:100%}
+.slide-track{display:flex;gap:8px;will-change:transform}
+.slide-track img{width:120px;height:120px;object-fit:cover;border-radius:8px;flex-shrink:0;display:block}
+.slide-track.left{animation:scrollLeft linear infinite}
+@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+</style>
+
+<script>
+(function(){
+  var base = 'https://sugar-osaka.github.io/sugar/slides/';
+  var total = 43;
+  var imgs = [];
+  for(var i=1;i<=total;i++) imgs.push(base+'slide'+i+'.jpg');
+
+  // シャッフル
+  for(var i=imgs.length-1;i>0;i--){
+    var j=Math.floor(Math.random()*(i+1));
+    var tmp=imgs[i]; imgs[i]=imgs[j]; imgs[j]=tmp;
+  }
+
+  var track = document.getElementById('track-left');
+  var html = '';
+  [imgs, imgs].forEach(function(set){
+    set.forEach(function(src){
+      html += '<img src="'+src+'" alt="sugar" loading="lazy">';
+    });
+  });
+  track.innerHTML = html;
+
+  // 枚数に応じてアニメーション速度を調整（1枚あたり3秒）
+  track.style.animationDuration = (total * 3) + 's';
+})();
+</script>
+
 <footer>© sugar</footer>
 
 </body>
