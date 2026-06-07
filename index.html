@@ -168,20 +168,25 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 </div>
 
 <div class="wrap">
-  <div class="slideshow-wrap">
-  <div class="slide-track-outer">
-    <div class="slide-track left" id="track-left"></div>
-  </div>
-  </div>
+  <div class="masonry-grid" id="masonry-grid"></div>
 </div>
 
 <style>
-.slideshow-wrap{width:100%;overflow:hidden;margin:1.5rem 0}
-.slide-track-outer{overflow:hidden;width:100%}
-.slide-track{display:flex;gap:8px;will-change:transform}
-.slide-track img{width:120px;height:120px;object-fit:cover;border-radius:8px;flex-shrink:0;display:block}
-.slide-track.left{animation:scrollLeft linear infinite}
-@keyframes scrollLeft{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.masonry-grid{
+  column-count:3;
+  column-gap:6px;
+  margin:1.5rem 0;
+}
+.masonry-grid img{
+  width:100%;
+  display:block;
+  margin-bottom:6px;
+  border-radius:8px;
+  break-inside:avoid;
+}
+@media(min-width:480px){
+  .masonry-grid{column-count:4}
+}
 </style>
 
 <script>
@@ -197,17 +202,14 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     var tmp=imgs[i]; imgs[i]=imgs[j]; imgs[j]=tmp;
   }
 
-  var track = document.getElementById('track-left');
-  var html = '';
-  [imgs, imgs].forEach(function(set){
-    set.forEach(function(src){
-      html += '<img src="'+src+'" alt="sugar" loading="lazy">';
-    });
+  var grid = document.getElementById('masonry-grid');
+  imgs.forEach(function(src){
+    var img = document.createElement('img');
+    img.src = src;
+    img.alt = 'sugar';
+    img.loading = 'lazy';
+    grid.appendChild(img);
   });
-  track.innerHTML = html;
-
-  // 速度：1枚あたり1.5秒（速め）
-  track.style.animationDuration = (total * 1.5) + 's';
 })();
 </script>
 
