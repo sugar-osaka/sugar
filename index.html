@@ -168,9 +168,11 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 </div>
 
 <div class="wrap">
+<p style="font-family:'Caveat Brush',cursive;font-size:22px;color:#9A7B6A;text-align:center;margin-bottom:0.8rem;letter-spacing:0.05em">Gallery</p>
 <div class="slider-wrap">
   <div class="slider-track" id="slider-track"></div>
 </div>
+<p style="font-family:'Yomogi',cursive;font-size:10px;color:#b09a8a;text-align:right;margin-top:6px;text-shadow:0 0 0.3px #b09a8a">予告なく飾り付けを変更する場合がございます</p>
 </div>
 
 <style>
@@ -205,41 +207,54 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   var itemW = 150 + 8;
   var totalW = itemW * srcs.length;
   var pos = totalW;
-  track.style.transform = 'translateX(-'+pos+'px)';
-
   var speed = 0.6;
   var dragging = false;
+  var startX = 0;
+  var startPos = 0;
+  var lastTime = null;
 
-  function animate(){
+  function setPos(p){
+    p = p % totalW;
+    if(p < 0) p += totalW;
+    pos = p + totalW;
+    track.style.transform = 'translateX(-'+pos+'px)';
+  }
+
+  setPos(0);
+
+  function animate(ts){
     if(!dragging){
-      pos += speed;
-      if(pos >= totalW * 2) pos -= totalW;
-      if(pos < totalW) pos += totalW;
-      track.style.transform = 'translateX(-'+pos+'px)';
+      if(lastTime !== null){
+        var dt = ts - lastTime;
+        setPos(pos - totalW + speed * dt / 16);
+      }
+      lastTime = ts;
+    } else {
+      lastTime = null;
     }
     requestAnimationFrame(animate);
   }
   requestAnimationFrame(animate);
 
-  var startX=0, startPos=0;
+  var wrap = document.querySelector('.slider-wrap');
+
   function onStart(x){ dragging=true; startX=x; startPos=pos; }
   function onMove(x){
     if(!dragging) return;
     var diff = startX - x;
-    pos = startPos + diff;
-    if(pos >= totalW*2) pos -= totalW;
-    if(pos < totalW) pos += totalW;
-    track.style.transform='translateX(-'+pos+'px)';
+    var p = (startPos + diff - totalW) % totalW;
+    if(p < 0) p += totalW;
+    pos = p + totalW;
+    track.style.transform = 'translateX(-'+pos+'px)';
   }
   function onEnd(){ dragging=false; }
 
-  track.addEventListener('touchstart',function(e){onStart(e.touches[0].clientX);},{passive:true});
-  track.addEventListener('touchmove',function(e){e.preventDefault();onMove(e.touches[0].clientX);},{passive:false});
-  track.addEventListener('touchend',onEnd);
-  track.addEventListener('mousedown',function(e){onStart(e.clientX);});
-  track.addEventListener('mousemove',function(e){onMove(e.clientX);});
-  track.addEventListener('mouseup',onEnd);
-  track.addEventListener('mouseleave',onEnd);
+  wrap.addEventListener('touchstart',function(e){onStart(e.touches[0].clientX);},{passive:true});
+  wrap.addEventListener('touchmove',function(e){e.preventDefault();onMove(e.touches[0].clientX);},{passive:false});
+  wrap.addEventListener('touchend',onEnd);
+  wrap.addEventListener('mousedown',function(e){onStart(e.clientX);});
+  window.addEventListener('mousemove',function(e){onMove(e.clientX);});
+  window.addEventListener('mouseup',onEnd);
 })();
 </script>
 
