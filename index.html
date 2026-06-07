@@ -167,9 +167,11 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
 </div>
 
-<div class="slideshow-wrap">
+<div class="wrap">
+  <div class="slideshow-wrap">
   <div class="slide-track-outer">
     <div class="slide-track left" id="track-left"></div>
+  </div>
   </div>
 </div>
 
@@ -204,8 +206,8 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   });
   track.innerHTML = html;
 
-  // 枚数に応じてアニメーション速度を調整（1枚あたり3秒）
-  track.style.animationDuration = (total * 3) + 's';
+  // 速度：1枚あたり1.5秒（速め）
+  track.style.animationDuration = (total * 1.5) + 's';
 })();
 </script>
 
