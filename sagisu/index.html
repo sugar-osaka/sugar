@@ -78,6 +78,8 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 /* 注意書き */
 .notice-card{background:transparent;border:1.5px solid #F5C5CC;border-radius:12px;padding:14px 16px 14px 36px;font-size:11px;color:#A63F52;line-height:2;text-shadow:0 0 0.2px #A63F52;position:relative}
 .notice-card::before{content:'✦';opacity:0.7;position:absolute;left:14px;top:14px}
+.sp-br{display:none}
+@media(max-width:600px){.sp-br{display:block}}
 
 /* リンクボタン群 */
 .links{display:flex;flex-direction:column;gap:10px}
@@ -152,7 +154,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   <!-- 注意書き -->
   <div class="section">
     <div class="notice-card">
-      sagisu店では、当日販売のホールケーキとクレープ、<br>sagisu店限定のクッキーシューの販売がメインとなります。<br>カットケーキやその他商品は&ensp;<a href="https://sugar-osaka.github.io/sugar/ebie/" style="color:#A63F52;text-decoration:none;background:linear-gradient(transparent 50%, #FADEDF 50%);padding:0 2px">【ebie店】<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#A63F52;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-left:1px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>&ensp;にて販売しております。
+      sagisu店では、当日販売のホールケーキとクレープ、<br>sagisu店限定のクッキーシューの販売がメインとなります。<br>カットケーキやその他商品は&ensp;<a href="https://sugar-osaka.github.io/sugar/ebie/" style="color:#A63F52;text-decoration:none;background:linear-gradient(transparent 50%, #FADEDF 50%);padding:0 2px">【ebie店】<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#A63F52;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-left:1px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>&ensp;<br class="sp-br">にて販売しております。
     </div>
   </div>
 
