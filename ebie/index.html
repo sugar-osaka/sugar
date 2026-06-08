@@ -3,17 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>sugar sagisu</title>
+<title>cafe sugar ebie</title>
 <link rel="icon" type="image/png" href="https://sugar-osaka.github.io/sugar-calendar/favicon.png">
-<meta name="description" content="大阪市福島区のパティスリーsugar sagisu。当日販売のホールケーキやクレープを主にご用意しております。">
-<meta property="og:title" content="sugar sagisu">
-<meta property="og:description" content="大阪市福島区のパティスリーsugar sagisu。当日販売のホールケーキやクレープを主にご用意しております。">
+<meta name="description" content="大阪市福島区のsugar ebieでは、ケーキ・焼菓子のテイクアウトはもちろん、ゆっくり楽しめるカフェスペースもございます。">
+<meta property="og:title" content="cafe sugar ebie">
+<meta property="og:description" content="大阪市福島区のsugar ebieでは、ケーキ・焼菓子のテイクアウトはもちろん、ゆっくり楽しめるカフェスペースもございます。">
 <meta property="og:image" content="https://sugar-osaka.github.io/sugar-calendar/OGP.jpg">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://sugar-osaka.github.io/sugar/sagisu/">
+<meta property="og:url" content="https://sugar-osaka.github.io/sugar/ebie/">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="sugar sagisu">
-<meta name="twitter:description" content="大阪市福島区のパティスリーsugar sagisu。当日販売のホールケーキやクレープを主にご用意しております。">
+<meta name="twitter:title" content="cafe sugar ebie">
+<meta name="twitter:description" content="大阪市福島区のsugar ebieでは、ケーキ・焼菓子のテイクアウトはもちろん、ゆっくり楽しめるカフェスペースもございます。">
 <meta name="twitter:image" content="https://sugar-osaka.github.io/sugar-calendar/OGP.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -25,8 +25,8 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 
 /* ヘッダー */
 .header{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.4rem;padding-top:0.5rem}
-.header-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:#A63F52;font-size:12px;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #A63F52}
-.header-back svg{width:16px;height:16px;stroke:#A63F52;fill:none}
+.header-back{display:flex;align-items:center;gap:6px;text-decoration:none;color:#7A9A60;font-size:12px;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #7A9A60}
+.header-back svg{width:16px;height:16px;stroke:#7A9A60;fill:none}
 .header-logo img{width:80px;height:auto}
 
 /* ヒーロー画像 */
@@ -34,17 +34,16 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .hero img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .hero-overlay{position:absolute;bottom:0;left:0;right:0;padding:32px 20px 20px;background:linear-gradient(transparent,rgba(0,0,0,0.5))}
 .hero-name{font-family:'Caveat Brush',cursive;font-size:36px;color:#fff;line-height:1}
-.hero-sub{font-size:11px;color:#fff;opacity:0.8;margin-top:4px;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #fff}
 
 /* セクション共通 */
 .section{margin-bottom:1.2rem}
 .section-title{font-size:11px;letter-spacing:0.18em;color:#b09a8a;margin-bottom:0.6rem;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #b09a8a}
 
 /* 営業時間カード */
-.hours-card{background:#fff;border:1.5px solid #f0ebe8;border-radius:12px;padding:14px 16px}
+.hours-card{background:#fff;border:1.5px solid #E8EFE3;border-radius:12px;padding:14px 16px}
 .hours-loading{color:#ccc;font-size:12px;padding:8px 0}
 .loading-dots{margin-bottom:8px}
-.loading-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#A63F52;margin:0 4px;animation:dot-blink 1.2s infinite}
+.loading-dots span{display:inline-block;width:8px;height:8px;border-radius:50%;background:#7A9A60;margin:0 4px;animation:dot-blink 1.2s infinite}
 .loading-dots span:nth-child(2){animation-delay:.2s}
 .loading-dots span:nth-child(3){animation-delay:.4s}
 @keyframes dot-blink{0%,80%,100%{opacity:.2;transform:scale(0.8)}40%{opacity:1;transform:scale(1)}}
@@ -68,39 +67,48 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .day-dot.active{font-weight:600}
 
 /* アクセスカード */
-.access-card{background:#fff;border:1.5px solid #f0ebe8;border-radius:12px;padding:14px 16px}
+.access-card{background:#fff;border:1.5px solid #E8EFE3;border-radius:12px;padding:14px 16px}
 .access-address{font-size:12px;color:#5C4A3A;line-height:2;text-shadow:0 0 0.3px #5C4A3A}
-.access-station{font-size:11px;color:#9a8070;margin-top:6px;line-height:1.8;text-shadow:0 0 0.2px #9a8070;padding-left:1em}
+.access-station{font-size:11px;color:#9a8070;margin-top:4px;line-height:1.8;text-shadow:0 0 0.2px #9a8070;padding-left:1em}
 .access-station::before{content:'▶︎ ';font-size:10px}
-.map-btn{display:inline-flex;align-items:center;gap:6px;margin-top:12px;padding:6px 14px;background:#F9EFF1;border-radius:20px;text-decoration:none;font-size:11px;color:#A63F52;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #A63F52}
-.map-btn svg{width:14px;height:14px;stroke:#A63F52;fill:none}
+.access-station-2{font-size:11px;color:#9a8070;line-height:1.8;text-shadow:0 0 0.2px #9a8070;padding-left:1em}
+.access-station-2::before{content:'▶︎ ';font-size:10px}
+.map-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 14px;background:#E8EFE3;border-radius:20px;text-decoration:none;font-size:11px;color:#7A9A60;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #7A9A60}
+.map-btn svg{width:14px;height:14px;stroke:#7A9A60;fill:none}
 
-/* 注意書き */
-.notice-card{background:transparent;border:1.5px solid #F5C5CC;border-radius:12px;padding:14px 16px 14px 36px;font-size:11px;color:#A63F52;line-height:2;text-shadow:0 0 0.2px #A63F52;position:relative}
-.notice-card::before{content:'✦';opacity:0.7;position:absolute;left:14px;top:14px}
+/* 予約カード */
+.reserve-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.reserve-wrap{position:relative;display:flex;flex-direction:column}
+.reserve-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#2E6040;z-index:0}
+.reserve-btn{display:flex;flex-direction:column;text-decoration:none;background:#E8EFE3;border:none;border-radius:12px;padding:14px 14px;transition:transform 0.15s;position:relative;z-index:1;flex:1}
+.reserve-btn:active{transform:scale(0.98)}
+.reserve-btn-label{font-size:10px;color:#4A7040;font-family:'Yomogi',cursive;margin-bottom:4px;text-shadow:0 0 0.2px #4A7040}
+.reserve-btn-name{font-family:'Caveat Brush',cursive;font-size:20px;color:#2E6040;line-height:1.2}
+.reserve-btn-name span{font-family:'Yomogi',cursive;font-size:16px;text-shadow:0 0 0.6px #2E6040;-webkit-text-stroke:0.3px #2E6040}
+.reserve-btn-arrow{font-size:11px;color:#4A7040;margin-top:auto;padding-top:8px;text-align:right;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #4A7040}
 
 /* リンクボタン群 */
 .links{display:flex;flex-direction:column;gap:10px}
-.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;background:#fff;border:1.5px solid #f0ebe8;border-radius:12px;padding:14px 16px;transition:transform 0.15s}
+.link-btn{display:flex;align-items:center;justify-content:space-between;text-decoration:none;background:#fff;border:1.5px solid #E8EFE3;border-radius:12px;padding:14px 16px;transition:transform 0.15s}
 .link-btn:active{transform:scale(0.98)}
 .link-btn-left{display:flex;align-items:center;gap:12px}
 .link-btn-icon{width:36px;height:36px;border-radius:8px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .link-btn-icon svg{width:20px;height:20px;fill:none}
 .link-btn-label{font-size:10px;color:#b09a8a;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #b09a8a}
-.link-btn-name{font-family:'Caveat Brush',cursive;font-size:18px;color:#7A3040;line-height:1.2}
+.link-btn-name{font-family:'Caveat Brush',cursive;font-size:18px;color:#4A7040;line-height:1.2}
 .link-btn-arrow svg{width:14px;height:14px;stroke:#ccc;fill:none}
 
-/* UberEats 2つ横並び */
+/* UberEats */
 .uber-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.uber-wrap{position:relative}
+.uber-wrap{position:relative;display:flex;flex-direction:column}
 .uber-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#2E6040;z-index:0}
 .uber-btn{display:flex;flex-direction:column;text-decoration:none;background:#fff;border:none;border-radius:12px;padding:14px 14px;transition:transform 0.15s;position:relative;z-index:1;flex:1}
 .uber-btn:active{transform:scale(0.98)}
 .uber-btn-icon{font-size:13px;font-family:Arial,sans-serif;font-weight:900;color:#2E6040;line-height:1.2;letter-spacing:-0.3px;margin-bottom:8px}
 .uber-btn-name{font-family:'Caveat Brush',cursive;font-size:18px;color:#9A7B6A;line-height:1.1;margin-bottom:2px}
+.uber-btn-sub{font-size:9px;color:#9a8070;font-family:'Yomogi',cursive}
 .uber-btn-arrow{display:flex;justify-content:flex-end;margin-top:auto;padding-top:8px}
 .uber-btn-arrow svg{width:14px;height:14px;stroke:#ccc;fill:none}
-.uber-btn-sub{font-size:9px;color:#9a8070;font-family:'Yomogi',cursive;text-shadow:0 0 0.3px #9a8070;-webkit-text-stroke:0.2px #9a8070}
 
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
 /* 今日のお知らせ */
@@ -125,7 +133,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 .popup-close{position:absolute;top:2px;right:2px;width:26px;height:26px;border:none;background:none;color:#ccc;font-size:20px;line-height:1;cursor:pointer;padding:0;display:flex;align-items:center;justify-content:center;border-radius:50%;font-family:sans-serif}
 .popup-icon{width:32px;height:32px;border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;overflow:hidden}
 .popup-icon svg{width:100%;height:100%;display:block}
-.popup-reserve{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:4px 10px;background:#A63F52;color:#fff;border-radius:20px;font-size:11px;font-family:'Yomogi',cursive;text-decoration:none;line-height:1.4}
+.popup-reserve{display:inline-flex;align-items:center;gap:5px;margin-top:6px;padding:4px 10px;background:#7A9A60;color:#fff;border-radius:20px;font-size:11px;font-family:'Yomogi',cursive;text-decoration:none;line-height:1.4}
 .popup-reserve svg{width:11px;height:11px;stroke:#fff;fill:none;flex-shrink:0;opacity:0.85}
 .popup-memo{margin-top:7px;padding-top:7px;border-top:1px solid #f0ebe8;font-size:12px;color:#888;font-family:'Yomogi',cursive;line-height:1.6;display:none}
 .popup-memo.has-memo{display:block}
@@ -143,16 +151,9 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
   <!-- ヒーロー画像 -->
   <div class="hero">
-    <img src="https://sugar-osaka.github.io/sugar/sagisu.jpg" alt="sagisu店">
+    <img src="https://sugar-osaka.github.io/sugar/ebie.jpg" alt="ebie店">
     <div class="hero-overlay">
-      <div class="hero-name"><span style="font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:28px">sugar</span> sagisu</div>
-    </div>
-  </div>
-
-  <!-- 注意書き -->
-  <div class="section">
-    <div class="notice-card">
-      sagisu店では、当日販売のホールケーキとクレープ、<br>sagisu店限定のクッキーシューの販売がメインとなります。<br>カットケーキやその他商品は&ensp;<a href="https://sugar-osaka.github.io/sugar/ebie/" style="color:#A63F52;text-decoration:none;background:linear-gradient(transparent 50%, #FADEDF 50%);padding:0 2px">【ebie店】<svg viewBox="0 0 24 24" style="width:10px;height:10px;stroke:#A63F52;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle;margin-left:1px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>&ensp;にて販売しております。
+      <div class="hero-name"><span style="font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:28px">sugar</span> ebie<br><span style="font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:28px">Cafe sugar</span> ebie</div>
     </div>
   </div>
 
@@ -173,7 +174,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     <!-- 今日のお知らせ -->
     <div id="today-notice-section" style="display:none;margin-bottom:1rem">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.6rem"><div class="section-title" style="margin-bottom:0">TODAY</div><div style="font-size:9px;color:#b09a8a;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #b09a8a">アイコンを押すと詳細を確認できます</div></div>
-      <table id="today-notice-list" class="today-rows" style="background:#fff;border:1.5px solid #F5E6E8;border-radius:10px;width:100%"></table>
+      <table id="today-notice-list" class="today-rows" style="background:#fff;border:1.5px solid #E8EFE3;border-radius:10px;width:100%"></table>
     </div>
 
     <!-- HOURS -->
@@ -182,7 +183,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
       <div class="hours-card">
         <div id="hours-content"></div>
       <div style="text-align:right;margin-top:10px">
-        <a class="map-btn" href="https://sugar-osaka.github.io/sugar-calendar/" target="_blank" rel="noopener">
+        <a class="map-btn" href="https://sugar-osaka.github.io/sugar-calendar/?shop=ebie" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
           営業カレンダーを確認
         </a>
@@ -194,12 +195,34 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   <div class="section">
     <div class="section-title">ACCESS</div>
     <div class="access-card">
-      <div class="access-address">大阪府大阪市福島区鷺洲1-11-3</div>
-      <div class="access-station">千日前線「野田阪神駅」/ 阪神本線「野田駅」から徒歩約3分</div>
-      <div style="text-align:right">
-        <a class="map-btn" href="https://maps.app.goo.gl/y86T3drr2LLqtZCZ7" target="_blank" rel="noopener">
+      <div class="access-address">大阪府大阪市福島区海老江5-3-10 西本ビル1階</div>
+      <div class="access-station">JR東西線「海老江駅」2番出口から徒歩約1分</div>
+      <div class="access-station-2">千日前線「野田阪神駅」/ 阪神本線「野田駅」から徒歩約5分</div>
+      <div style="text-align:right;margin-top:10px">
+        <a class="map-btn" href="https://maps.app.goo.gl/p5q52sH4MQPigsN2A" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
           Google マップで開く
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- 予約 -->
+  <div class="section">
+    <div class="section-title">RESERVE</div>
+    <div class="reserve-row">
+      <div class="reserve-wrap">
+        <a class="reserve-btn" href="https://www.tablecheck.com/ja/cafesugar-fukushima-pickup/reserve/message" target="_blank" rel="noopener">
+          <div class="reserve-btn-label">TAKEOUT</div>
+          <div class="reserve-btn-name"><span>テイクアウト予約</span></div>
+          <div class="reserve-btn-arrow">予約ページへ →</div>
+        </a>
+      </div>
+      <div class="reserve-wrap">
+        <a class="reserve-btn" href="https://www.tablecheck.com/ja/cafesugar-fukushima/reserve/message" target="_blank" rel="noopener">
+          <div class="reserve-btn-label">EAT IN</div>
+          <div class="reserve-btn-name"><span>イートイン予約</span></div>
+          <div class="reserve-btn-arrow">予約ページへ →</div>
         </a>
       </div>
     </div>
@@ -210,21 +233,19 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     <div class="section-title">LINKS</div>
     <div class="links">
 
-      <!-- Instagram -->
-      <a class="link-btn" href="https://www.instagram.com/sugar_fukushima/" target="_blank" rel="noopener">
+      <a class="link-btn" href="https://www.instagram.com/sugar_ebie/" target="_blank" rel="noopener">
         <div class="link-btn-left">
-          <div class="link-btn-icon" style="background:#F9EFF1">
-            <svg viewBox="0 0 24 24" stroke="#A63F52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#A63F52" stroke="none"/></svg>
+          <div class="link-btn-icon" style="background:#E8EFE3">
+            <svg viewBox="0 0 24 24" stroke="#7A9A60" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#7A9A60" stroke="none"/></svg>
           </div>
           <div>
             <div class="link-btn-label">Instagram</div>
-            <div class="link-btn-name">@sugar_fukushima</div>
+            <div class="link-btn-name">@sugar_ebie</div>
           </div>
         </div>
         <div class="link-btn-arrow"><svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
       </a>
 
-      <!-- オンラインショップ -->
       <a class="link-btn" href="https://sugargift.theshop.jp/" target="_blank" rel="noopener">
         <div class="link-btn-left">
           <div class="link-btn-icon" style="background:#F5F0E8">
@@ -238,7 +259,6 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
         <div class="link-btn-arrow"><svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg></div>
       </a>
 
-      <!-- UberEats -->
       <div class="uber-row">
         <div class="uber-wrap">
           <a class="uber-btn" href="https://www.ubereats.com/store-browse-uuid/a9e7abd2-8722-5720-b635-0ced9a2e3a95?diningMode=DELIVERY" target="_blank" rel="noopener">
@@ -285,11 +305,9 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 <script>
 var CSV_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRXaoNmu-0-jF6TIvDPoU4ysQ0822c1QPgXajACwGNaj42z-ArKo1IBqUNq8BF5ynApVTIYSodpijt-/pub?gid=0&single=true&output=csv';
 var MASTER_URL='https://docs.google.com/spreadsheets/d/e/2PACX-1vRXaoNmu-0-jF6TIvDPoU4ysQ0822c1QPgXajACwGNaj42z-ArKo1IBqUNq8BF5ynApVTIYSodpijt-/pub?gid=160892631&single=true&output=csv';
-
 var COLORS={whole_cake:'#B85366',crepe:'#A87C28',muffin:'#A6834F',takeout:'#C22047',cafe:'#6B8294',KIMAGURE_cafe:'#A68A6F',coffee_cup:'#7A8C3E',cookie:'#C68642',gift:'#B85C8A',Christmas:'#3A7D44',KODOMO_NO_HI:'#2980b9',HINAMATSURI:'#FFD6E0',valentine:'#C0392B',whiteday:'#4A90C0',OSHOGATSU:'#8B6914',sugar:'#B8860B',scone:'#6B7A3E',sumer:'#FF8C55',Halloween:'#C07800',mothers_day:'#C45E8A',fathers_day:'#1565C0',SETSUBUN:'#C45000',chiffon_cake:'#2E7D52'};
-var SVG={whole_cake:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="9" x2="8" y2="5"/><line x1="12" y1="9" x2="12" y2="4"/><line x1="16" y1="9" x2="16" y2="5"/><path d="M7 4.5 Q8 3 9 4.5"/><path d="M11 3 Q12 1.5 13 3"/><path d="M15 4.5 Q16 3 17 4.5"/><rect x="3" y="9" width="18" height="11" rx="2.5"/><path d="M3 13 Q7 11 12 13 Q17 11 21 13"/><line x1="3" y1="16" x2="21" y2="16"/></svg>',crepe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10 L12 22 L19 10 Z"/><path d="M5 10 Q12 7 19 10"/><path d="M7 10 Q9 8 12 8 Q15 8 17 10"/><path d="M8 7 Q8 4 10 4 Q12 3 14 4 Q16 4 16 7"/><path d="M9 6 Q10 4.5 12 4.5 Q14 4.5 15 6"/><circle cx="10" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',muffin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13 L8 21 L16 21 L17 13 Z"/><line x1="10" y1="13" x2="9.5" y2="21"/><line x1="12" y1="13" x2="12" y2="21"/><line x1="14" y1="13" x2="14.5" y2="21"/><path d="M7 13 Q5 13 5 10 Q5 7 8 6 Q9 3 12 3 Q15 3 16 6 Q19 7 19 10 Q19 13 17 13 Q15 14 12 14 Q9 14 7 13 Z"/><path d="M8 7 Q9 5.5 11 6"/><path d="M14 5.5 Q15.5 6.5 15 8"/></svg>',takeout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="4" rx="1"/><rect x="3" y="11" width="18" height="4" rx="0.5"/><path d="M3 11 L12 5 L21 11"/><path d="M3 11 Q7 9.5 12 10.5 Q17 9.5 21 11"/><ellipse cx="12" cy="5.5" rx="3" ry="3.5" fill="currentColor" stroke="none"/><path d="M10.5 3 Q12 1.8 13.5 3" stroke="currentColor" stroke-width="1" fill="none"/></svg>',cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M10 5 Q10 3 12 3 Q12 5 10 5"/></svg>',KIMAGURE_cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M9 5 Q11 2 13 5"/></svg>',coffee_cup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8 L19 8 L17 19 L7 19 Z"/><path d="M19 10 Q23 10 23 14 Q23 18 19 18"/><line x1="3" y1="22" x2="21" y2="22"/><path d="M9 5 Q9 3 11 3 Q11 5 13 5 Q13 3 15 3"/></svg>',cookie:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="14" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="14" r="1.2" fill="currentColor" stroke="none"/><circle cx="11" cy="17" r="0.9" fill="currentColor" stroke="none"/></svg>',gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="11" rx="1.5"/><rect x="2" y="6" width="20" height="4" rx="1"/><line x1="12" y1="6" x2="12" y2="21"/><path d="M12 6 Q10 3 8 4 Q6 5 8 6 Q10 7 12 6"/><path d="M12 6 Q14 3 16 4 Q18 5 16 6 Q14 7 12 6"/></svg>',Christmas:'<svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 17,9 7,9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12,6 18,14 6,14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12,11 19,20 5,20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="10.5" y="20" width="3" height="2.5" rx="0.5" stroke="currentColor" stroke-width="1.6"/><polygon points="12,0 12.7,1.8 14.7,1.8 13.2,3 13.8,5 12,3.8 10.2,5 10.8,3 9.3,1.8 11.3,1.8" fill="#FFA500" stroke="#FFA500" stroke-width="0.3"/></svg>',KODOMO_NO_HI:'<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="1" x2="3" y2="27"/><circle cx="3" cy="1.8" r="1.6" fill="currentColor" stroke="none"/><path d="M3 5 L5 4.5 Q16 3.5 22 7 Q25 9 22 11.5 Q16 15 5 14 L3 13.5 Z" fill="currentColor" stroke="none"/><path d="M22 7 L26 6 L22 10" fill="currentColor" stroke="none"/><circle cx="7" cy="9" r="1.6" fill="white" stroke="none"/><path d="M3 16 L5 15.5 Q14 14.5 20 17.5 Q23 19.5 20 22 Q14 25.5 5 24.5 L3 24 Z" fill="currentColor" stroke="none"/><path d="M20 17.5 L23 16.5 L20 21" fill="currentColor" stroke="none"/><circle cx="7" cy="20" r="1.4" fill="white" stroke="none"/></svg>',HINAMATSURI:'<svg viewBox="0 0 24 24"><g transform="translate(12,12)"><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(0)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(72)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(144)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(216)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(288)"/><circle cx="0" cy="0" r="2.4" fill="currentColor"/></g></svg>',valentine:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 Q5 13 5 8 Q5 5 7.5 4 Q10 3 12 6 Q14 3 16.5 4 Q19 5 19 8 Q19 13 12 19 Z"/></svg>',whiteday:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 Q5 13 5 8 Q5 5 7.5 4 Q10 3 12 6 Q14 3 16.5 4 Q19 5 19 8 Q19 13 12 19 Z"/></svg>',OSHOGATSU:'<svg viewBox="2 1 20 23" fill="none"><rect x="5" y="20" width="14" height="3" rx="1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5,16 Q7,19.5 12,19.8 Q17,19.5 17.5,16 Q17,14 15.5,13.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5,13.2 Q7,14 6.5,16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11" r="3.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="6.5" r="2" fill="#F5820A" stroke="#D96B00" stroke-width="0.8"/><line x1="12" y1="4.5" x2="12" y2="3.5" stroke="#3A7D44" stroke-width="1.2" stroke-linecap="round"/></svg>',sugar:'<svg viewBox="0 0 52 24"><text x="50%" y="55%" font-size="13" font-family="Caveat Brush,cursive" fill="#ffffff" stroke="none" text-anchor="middle" dominant-baseline="middle">sugar</text></svg>',scone:'<svg viewBox="22 24 58 52" fill="none"><path d="M32,72 C24,70 20,54 25,44 C30,34 40,28 50,26 C60,24 72,30 76,42 C80,52 78,68 68,72 C58,76 40,74 32,72 Z" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24,48 Q35,51 50,52 Q62,48 76,42" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M26,62 C34,58 46,64 56,60" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',Halloween:'<svg viewBox="16 16 68 64" fill="none"><path d="M50,28 L50,20 C50,18 48,18 48,18 C46,18 46,20 46,20 L46,28" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40,28 C22,26 18,48 22,62 C26,76 44,78 50,72 C56,78 74,76 78,62 C82,48 78,26 60,28" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><polygon points="30,50 46,50 38,37" fill="currentColor"/><polygon points="54,50 70,50 62,37" fill="currentColor"/><polygon points="47,55 53,55 50,50" fill="currentColor"/><path d="M28,54 C32,68 68,68 72,54 C66,58 64,55 60,56 L60,60 L54,60 L54,57 L46,57 L46,60 L40,60 L40,56 C36,55 34,58 28,54 Z" fill="currentColor"/></svg>',sumer:'<svg viewBox="0 0 100 100"><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF8C55" transform="rotate(0,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FFD84D" transform="rotate(36,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF8C55" transform="rotate(72,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF6B9E" transform="rotate(108,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FFD84D" transform="rotate(144,50,50)"/><circle cx="50" cy="50" r="4" fill="#FFD84D"/></svg>',mothers_day:'<svg viewBox="25 10 50 75" fill="none"><g transform="rotate(-15,50,50)"><path d="M38,40 C32,40 28,34 32,28 C33,25 36,22 39,21 C40,18 42,16 44,18 C45,15 47,14 49,16 C50,13 52,13 53,16 C55,14 57,15 57,18 C59,16 62,17 62,20 C65,21 68,24 68,28 C72,34 68,40 62,40 C59,45 55,47 50,46 C45,47 41,45 38,40 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M45,45 C46,49 48,50 50,50 C52,50 54,49 55,45" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="50" y1="50" x2="50" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></g></svg>',fathers_day:'<svg viewBox="30 8 40 82" fill="none"><path d="M44,14 C42,10 58,10 56,14 L53,22 L64,68 L50,85 L36,68 L47,22 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M46,22 L54,22" stroke="white" stroke-width="3.5" stroke-linecap="round"/></svg>',SETSUBUN:'<svg viewBox="20 18 60 70" fill="none"><circle cx="50" cy="38" r="12" fill="currentColor"/><circle cx="36" cy="40" r="10.5" fill="currentColor"/><circle cx="64" cy="40" r="10.5" fill="currentColor"/><path d="M29,53 Q27,63 30,71 Q36,82 50,83 Q64,82 70,71 Q73,63 71,53 Q65,45 50,43 Q35,45 29,53 Z" fill="currentColor"/><circle cx="40" cy="64" r="2.5" fill="white"/><circle cx="60" cy="64" r="2.5" fill="white"/><path d="M42,72 Q50,78 58,72" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>',chiffon_cake:'<svg viewBox="1 2 22 22" fill="none"><ellipse cx="12" cy="7" rx="8.5" ry="3.6" stroke="currentColor" stroke-width="1.5"/><ellipse cx="12" cy="7" rx="2" ry="0.9" stroke="currentColor" stroke-width="1.5"/><path d="M 3.5,7 L 2.5,17 Q 3.5,22 12,22 Q 20.5,22 21.5,17 L 20.5,7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M 3,15.5 Q 5.5,14 7.5,15.5 Q 9.5,17 11.5,15.5 Q 13.5,14 15.5,15.5 Q 17.5,17 20,15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
-var DOTCLS={whole_cake:'dot-whole_cake',crepe:'dot-crepe',muffin:'dot-muffin',takeout:'dot-takeout',cafe:'dot-cafe',KIMAGURE_cafe:'dot-KIMAGURE_cafe',coffee_cup:'dot-coffee_cup',cookie:'dot-cookie',gift:'dot-gift',Christmas:'dot-Christmas',KODOMO_NO_HI:'dot-KODOMO_NO_HI',HINAMATSURI:'dot-HINAMATSURI',valentine:'dot-valentine',whiteday:'dot-whiteday',OSHOGATSU:'dot-OSHOGATSU',sugar:'dot-sugar',scone:'dot-scone',sumer:'dot-sumer',Halloween:'dot-Halloween',mothers_day:'dot-mothers_day',fathers_day:'dot-fathers_day',SETSUBUN:'dot-SETSUBUN',chiffon_cake:'dot-chiffon_cake'};
-var TYPE_INFO={whole_cake:{name:'ホールケーキ',hours:'12:00-17:00'},crepe:{name:'クレープ',hours:'12:00-16:00'},takeout:{name:'テイクアウト',hours:'12:00-18:00'},cafe:{name:'イートイン',hours:'13:00-17:30'},KIMAGURE_cafe:{name:'気まぐれカフェ',hours:'12:00-16:30'},muffin:{name:'マフィン',hours:'12:00-18:00'},coffee_cup:{name:'コーヒー',hours:''},cookie:{name:'クッキー',hours:''},gift:{name:'ギフト',hours:''},chiffon_cake:{name:'シフォンケーキ',hours:''},sugar:{name:'sugar',hours:''}};
+var SVG={whole_cake:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><line x1="8" y1="9" x2="8" y2="5"/><line x1="12" y1="9" x2="12" y2="4"/><line x1="16" y1="9" x2="16" y2="5"/><path d="M7 4.5 Q8 3 9 4.5"/><path d="M11 3 Q12 1.5 13 3"/><path d="M15 4.5 Q16 3 17 4.5"/><rect x="3" y="9" width="18" height="11" rx="2.5"/><path d="M3 13 Q7 11 12 13 Q17 11 21 13"/><line x1="3" y1="16" x2="21" y2="16"/></svg>',crepe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10 L12 22 L19 10 Z"/><path d="M5 10 Q12 7 19 10"/><path d="M7 10 Q9 8 12 8 Q15 8 17 10"/><path d="M8 7 Q8 4 10 4 Q12 3 14 4 Q16 4 16 7"/><path d="M9 6 Q10 4.5 12 4.5 Q14 4.5 15 6"/><circle cx="10" cy="5" r="1" fill="currentColor" stroke="none"/><circle cx="13" cy="4.5" r="0.8" fill="currentColor" stroke="none"/></svg>',muffin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 13 L8 21 L16 21 L17 13 Z"/><line x1="10" y1="13" x2="9.5" y2="21"/><line x1="12" y1="13" x2="12" y2="21"/><line x1="14" y1="13" x2="14.5" y2="21"/><path d="M7 13 Q5 13 5 10 Q5 7 8 6 Q9 3 12 3 Q15 3 16 6 Q19 7 19 10 Q19 13 17 13 Q15 14 12 14 Q9 14 7 13 Z"/><path d="M8 7 Q9 5.5 11 6"/><path d="M14 5.5 Q15.5 6.5 15 8"/></svg>',takeout:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="15" width="18" height="4" rx="1"/><rect x="3" y="11" width="18" height="4" rx="0.5"/><path d="M3 11 L12 5 L21 11"/><path d="M3 11 Q7 9.5 12 10.5 Q17 9.5 21 11"/><ellipse cx="12" cy="5.5" rx="3" ry="3.5" fill="currentColor" stroke="none"/><path d="M10.5 3 Q12 1.8 13.5 3" stroke="currentColor" stroke-width="1" fill="none"/></svg>',cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M10 5 Q10 3 12 3 Q12 5 10 5"/></svg>',KIMAGURE_cafe:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8 L17 8 L15 19 L9 19 Z"/><path d="M17 10 Q21 10 21 14 Q21 18 17 18"/><line x1="5" y1="22" x2="19" y2="22"/><path d="M9 5 Q11 2 13 5"/></svg>',coffee_cup:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8 L19 8 L17 19 L7 19 Z"/><path d="M19 10 Q23 10 23 14 Q23 18 19 18"/><line x1="3" y1="22" x2="21" y2="22"/><path d="M9 5 Q9 3 11 3 Q11 5 13 5 Q13 3 15 3"/></svg>',cookie:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><circle cx="9" cy="9" r="1.2" fill="currentColor" stroke="none"/><circle cx="14" cy="8" r="1" fill="currentColor" stroke="none"/><circle cx="8" cy="14" r="1" fill="currentColor" stroke="none"/><circle cx="14" cy="14" r="1.2" fill="currentColor" stroke="none"/><circle cx="11" cy="17" r="0.9" fill="currentColor" stroke="none"/></svg>',gift:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="10" width="18" height="11" rx="1.5"/><rect x="2" y="6" width="20" height="4" rx="1"/><line x1="12" y1="6" x2="12" y2="21"/><path d="M12 6 Q10 3 8 4 Q6 5 8 6 Q10 7 12 6"/><path d="M12 6 Q14 3 16 4 Q18 5 16 6 Q14 7 12 6"/></svg>',Christmas:'<svg viewBox="0 0 24 24" fill="none"><polygon points="12,2 17,9 7,9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12,6 18,14 6,14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><polygon points="12,11 19,20 5,20" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><rect x="10.5" y="20" width="3" height="2.5" rx="0.5" stroke="currentColor" stroke-width="1.6"/><polygon points="12,0 12.7,1.8 14.7,1.8 13.2,3 13.8,5 12,3.8 10.2,5 10.8,3 9.3,1.8 11.3,1.8" fill="#FFA500" stroke="#FFA500" stroke-width="0.3"/></svg>',KODOMO_NO_HI:'<svg viewBox="0 0 28 28" fill="none" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="1" x2="3" y2="27"/><circle cx="3" cy="1.8" r="1.6" fill="currentColor" stroke="none"/><path d="M3 5 L5 4.5 Q16 3.5 22 7 Q25 9 22 11.5 Q16 15 5 14 L3 13.5 Z" fill="currentColor" stroke="none"/><path d="M22 7 L26 6 L22 10" fill="currentColor" stroke="none"/><circle cx="7" cy="9" r="1.6" fill="white" stroke="none"/><path d="M11 6.5 Q15 8 15 9.5 Q15 11 11 12" stroke="white" stroke-width="1.1" fill="none"/><path d="M3 16 L5 15.5 Q14 14.5 20 17.5 Q23 19.5 20 22 Q14 25.5 5 24.5 L3 24 Z" fill="currentColor" stroke="none"/><path d="M20 17.5 L23 16.5 L20 21" fill="currentColor" stroke="none"/><circle cx="7" cy="20" r="1.4" fill="white" stroke="none"/><path d="M11 17.5 Q14 19 14 20.5 Q14 22 11 22.5" stroke="white" stroke-width="1.1" fill="none"/></svg>',HINAMATSURI:'<svg viewBox="0 0 24 24"><g transform="translate(12,12)"><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(0)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(72)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(144)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(216)"/><path d="M0,0 Q-3,-3 -3.5,-6 Q-4,-9.5 0,-10.5 Q4,-9.5 3.5,-6 Q3,-3 0,0 Z" fill="currentColor" transform="rotate(288)"/><circle cx="0" cy="0" r="2.4" fill="currentColor"/></g></svg>',valentine:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 Q5 13 5 8 Q5 5 7.5 4 Q10 3 12 6 Q14 3 16.5 4 Q19 5 19 8 Q19 13 12 19 Z"/></svg>',whiteday:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19 Q5 13 5 8 Q5 5 7.5 4 Q10 3 12 6 Q14 3 16.5 4 Q19 5 19 8 Q19 13 12 19 Z"/></svg>',OSHOGATSU:'<svg viewBox="2 1 20 23" fill="none"><rect x="5" y="20" width="14" height="3" rx="1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6.5,16 Q7,19.5 12,19.8 Q17,19.5 17.5,16 Q17,14 15.5,13.2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M8.5,13.2 Q7,14 6.5,16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><circle cx="12" cy="11" r="3.5" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="6.5" r="2" fill="#F5820A" stroke="#D96B00" stroke-width="0.8"/><line x1="12" y1="4.5" x2="12" y2="3.5" stroke="#3A7D44" stroke-width="1.2" stroke-linecap="round"/></svg>',sugar:'<svg viewBox="0 0 52 24"><text x="50%" y="55%" font-size="13" font-family="Caveat Brush,cursive" fill="#ffffff" stroke="none" text-anchor="middle" dominant-baseline="middle">sugar</text></svg>',scone:'<svg viewBox="22 24 58 52" fill="none"><path d="M32,72 C24,70 20,54 25,44 C30,34 40,28 50,26 C60,24 72,30 76,42 C80,52 78,68 68,72 C58,76 40,74 32,72 Z" stroke="currentColor" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/><path d="M24,48 Q35,51 50,52 Q62,48 76,42" stroke="currentColor" stroke-width="4" stroke-linecap="round"/><path d="M26,62 C34,58 46,64 56,60" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></svg>',Halloween:'<svg viewBox="16 16 68 64" fill="none"><path d="M50,28 L50,20 C50,18 48,18 48,18 C46,18 46,20 46,20 L46,28" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M40,28 C22,26 18,48 22,62 C26,76 44,78 50,72 C56,78 74,76 78,62 C82,48 78,26 60,28" stroke="currentColor" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M36,40 C35.5,35 41,27 50,27 C59,27 64.5,35 64,40" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><path d="M38,68 C40,72 46,74 50,74 C54,74 60,72 62,68" stroke="currentColor" stroke-width="4.5" stroke-linecap="round"/><polygon points="30,50 46,50 38,37" fill="currentColor"/><polygon points="54,50 70,50 62,37" fill="currentColor"/><polygon points="47,55 53,55 50,50" fill="currentColor"/><path d="M28,54 C32,68 68,68 72,54 C66,58 64,55 60,56 L60,60 L54,60 L54,57 L46,57 L46,60 L40,60 L40,56 C36,55 34,58 28,54 Z" fill="currentColor"/></svg>',sumer:'<svg viewBox="0 0 100 100"><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF8C55" transform="rotate(0,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FFD84D" transform="rotate(36,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF8C55" transform="rotate(72,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FF6B9E" transform="rotate(108,50,50)"/><path d="M50,42 C47,34 47,22 50,18 C53,22 53,34 50,42 Z" fill="#FFD84D" transform="rotate(144,50,50)"/><circle cx="50" cy="50" r="4" fill="#FFD84D"/></svg>',mothers_day:'<svg viewBox="25 10 50 75" fill="none"><g transform="rotate(-15,50,50)"><path d="M38,40 C32,40 28,34 32,28 C33,25 36,22 39,21 C40,18 42,16 44,18 C45,15 47,14 49,16 C50,13 52,13 53,16 C55,14 57,15 57,18 C59,16 62,17 62,20 C65,21 68,24 68,28 C72,34 68,40 62,40 C59,45 55,47 50,46 C45,47 41,45 38,40 Z" fill="currentColor" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M45,45 C46,49 48,50 50,50 C52,50 54,49 55,45" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/><line x1="50" y1="50" x2="50" y2="85" stroke="currentColor" stroke-width="4" stroke-linecap="round"/></g></svg>',fathers_day:'<svg viewBox="30 8 40 82" fill="none"><path d="M44,14 C42,10 58,10 56,14 L53,22 L64,68 L50,85 L36,68 L47,22 Z" fill="currentColor" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M46,22 L54,22" stroke="white" stroke-width="3.5" stroke-linecap="round"/></svg>',SETSUBUN:'<svg viewBox="20 18 60 70" fill="none"><circle cx="50" cy="38" r="12" fill="currentColor"/><circle cx="36" cy="40" r="10.5" fill="currentColor"/><circle cx="64" cy="40" r="10.5" fill="currentColor"/><path d="M29,53 Q27,63 30,71 Q36,82 50,83 Q64,82 70,71 Q73,63 71,53 Q65,45 50,43 Q35,45 29,53 Z" fill="currentColor"/><circle cx="40" cy="64" r="2.5" fill="white"/><circle cx="60" cy="64" r="2.5" fill="white"/><path d="M42,72 Q50,78 58,72" fill="none" stroke="white" stroke-width="2.2" stroke-linecap="round"/></svg>',chiffon_cake:'<svg viewBox="1 2 22 22" fill="none"><ellipse cx="12" cy="7" rx="8.5" ry="3.6" stroke="currentColor" stroke-width="1.5"/><ellipse cx="12" cy="7" rx="2" ry="0.9" stroke="currentColor" stroke-width="1.5"/><path d="M 3.5,7 L 2.5,17 Q 3.5,22 12,22 Q 20.5,22 21.5,17 L 20.5,7" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M 3,15.5 Q 5.5,14 7.5,15.5 Q 9.5,17 11.5,15.5 Q 13.5,14 15.5,15.5 Q 17.5,17 20,15.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>'};
+var TYPE_INFO={whole_cake:{name:'ホールケーキ',hours:'12:00-17:00'},crepe:{name:'クレープ',hours:'12:00-16:00'},takeout:{name:'テイクアウト',hours:'12:00-18:00'},cafe:{name:'イートイン',hours:'13:00-17:30'},KIMAGURE_cafe:{name:'気まぐれカフェ',hours:'12:00-16:30'},muffin:{name:'マフィン',hours:'12:00-18:00'},chiffon_cake:{name:'シフォンケーキ',hours:''}};
 var ICON_NAME_MAP={"ホールケーキ":"whole_cake","クレープ":"crepe","テイクアウト":"takeout","イートイン":"cafe","気まぐれカフェ":"KIMAGURE_cafe","マフィン":"muffin","コーヒー":"coffee_cup","クッキー":"cookie","ギフト":"gift","sugar":"sugar","スコーン":"scone","シフォンケーキ":"chiffon_cake"};
 var DAY_NAMES=['日','月','火','水','木','金','土'];
 var shopItems=[];
@@ -341,7 +359,7 @@ function parseCSV(text){
   for(var i=1;i<rows.length;i++){
     var cols=rows[i].split(',');
     var shopRaw=(cols[2]||'').trim().toLowerCase();
-    if(shopRaw!=='sagisu') continue;
+    if(shopRaw!=='ebie') continue;
     var kindRaw=(cols[3]||'').trim();
     var kind=kindMap[kindRaw]||kindRaw.toLowerCase();
     var targetRaw=(cols[4]||'').trim();
@@ -353,14 +371,15 @@ function parseCSV(text){
     if(reserveUrlRaw&&!/^https?:\/\//i.test(reserveUrlRaw)) reserveUrlRaw='';
     var dateFrom=(cols[0]||'').trim().replace(/\//g,'-');
     var dateTo=(cols[1]||'').trim().replace(/\//g,'-');
+    // 固定営業
     if(kind==='fixed'){
-      // 固定営業
       var targetKey=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
       var days=daysRaw?daysRaw.split('').map(function(c){return DAY_NAMES.indexOf(c);}).filter(function(d){return d>=0;}):[]; 
       var existing=shopItems.find(function(x){return x.type===targetKey;});
       if(!existing){shopItems.push({type:targetKey,name:targetRaw||targetKey,days:days,hours:hoursRaw});}
       if(days.length>0) dayOverrides[targetKey]=days;
     }
+    // 今日の特別データ（臨時営業・イベント・臨時休業）
     if(kind==='extra'||kind==='event'||kind==='closed'){
       if(!dateFrom) continue;
       var dtTo=dateTo||dateFrom;
@@ -386,7 +405,6 @@ function renderTodayNotice(items){
     var svgStr='';
     if(item.kind==='closed'){
       svgStr='<span style="color:#fcebed;font-size:14px;font-weight:bold;font-family:Yomogi,cursive">休</span>';
-      bgColor='#AF011C';
     } else if(item.kind==='event'){
       svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">EVENT</span>';
       bgColor='#fcc800';
@@ -475,6 +493,7 @@ function openTodayPopup(idx){
   var overlay=document.getElementById('popup-overlay');
   card.classList.remove('is-visible');
   overlay.classList.add('is-open');
+  // カード位置を中央に
   card.style.left='50%';
   card.style.top='50%';
   card.style.transform='translate(-50%,-50%) scale(0.96)';
@@ -506,8 +525,8 @@ function parseMaster(text){
   }
 }
 
-var CACHE_KEY='sugar_csv_sagisu';
-var CACHE_TIME_KEY='sugar_csv_time_sagisu';
+var CACHE_KEY='sugar_csv_ebie';
+var CACHE_TIME_KEY='sugar_csv_time_ebie';
 var MASTER_CACHE_KEY='sugar_master_csv';
 var MASTER_CACHE_TIME_KEY='sugar_master_csv_time';
 var CACHE_DURATION=5*60*1000;
@@ -523,16 +542,20 @@ function loadData(){
 
   if(masterFresh) parseMaster(cachedMaster);
 
+  // キャッシュがあれば即表示（期限問わず）
   if(cachedCSV){ parseCSV(cachedCSV); }
 
+  // キャッシュが有効なら追加fetchしない
   if(csvFresh) return;
 
+  // キャッシュ期限切れの場合のみfetch（表示済みなら差分があった時だけ再render）
   var fetchMaster=masterFresh?Promise.resolve(cachedMaster):fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){cacheSet(MASTER_CACHE_KEY,t);cacheSet(MASTER_CACHE_TIME_KEY,Date.now().toString());return t;}).catch(function(){return cachedMaster||'';});
 
   fetchMaster.then(function(t){
     if(t&&!masterFresh) parseMaster(t);
     return fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){cacheSet(CACHE_KEY,t);cacheSet(CACHE_TIME_KEY,Date.now().toString());return t;});
   }).then(function(newCSV){
+    // 内容が変わった時だけ再render
     if(newCSV !== cachedCSV) parseCSV(newCSV);
   }).catch(function(){
     if(!cachedCSV) renderHours();
