@@ -529,12 +529,13 @@ function loadData(){
 
   if(csvFresh) return;
 
-  var fetchMaster=masterFresh?Promise.resolve(cachedMaster):fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){cacheSet(MASTER_CACHE_KEY,t);cacheSet(MASTER_CACHE_TIME_KEY,Date.now().toString());return t;}).catch(function(){return cachedMaster||'';});
+  // マスターCSVとメインCSVは互いに依存しないため並列fetchで待ち時間を短縮
+  var masterPromise=masterFresh?Promise.resolve(cachedMaster):fetch(MASTER_URL).then(function(r){return r.text();}).then(function(t){cacheSet(MASTER_CACHE_KEY,t);cacheSet(MASTER_CACHE_TIME_KEY,Date.now().toString());return t;}).catch(function(){return cachedMaster||'';});
+  var csvPromise=fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){cacheSet(CACHE_KEY,t);cacheSet(CACHE_TIME_KEY,Date.now().toString());return t;});
 
-  fetchMaster.then(function(t){
+  Promise.all([masterPromise,csvPromise]).then(function(results){
+    var t=results[0],newCSV=results[1];
     if(t&&!masterFresh) parseMaster(t);
-    return fetch(CSV_URL).then(function(r){return r.text();}).then(function(t){cacheSet(CACHE_KEY,t);cacheSet(CACHE_TIME_KEY,Date.now().toString());return t;});
-  }).then(function(newCSV){
     if(newCSV !== cachedCSV) parseCSV(newCSV);
   }).catch(function(){
     if(!cachedCSV) renderHours();
