@@ -405,6 +405,7 @@ function renderTodayNotice(items){
     var svgStr='';
     if(item.kind==='closed'){
       svgStr='<span style="color:#fcebed;font-size:14px;font-weight:bold;font-family:Yomogi,cursive">休</span>';
+      bgColor='#AF011C';
     } else if(item.kind==='event'){
       svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">EVENT</span>';
       bgColor='#fcc800';
