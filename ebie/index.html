@@ -338,7 +338,7 @@ function renderHours(){
     var color=COLORS[item.type]||'#432f2f';
     var hours=item.hours||(TYPE_INFO[item.type]?TYPE_INFO[item.type].hours:'')||'';
     var svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
-    h+='<div class="info-row" onclick="openHoursPopup(\''+item.type+'\',this)" style="cursor:pointer">';
+    h+='<div class="info-row" onclick="openHoursPopup(\''+item.type+'\',this.querySelector(\'.info-icon-dot\'))" style="cursor:pointer">';
     h+='<div class="info-icon"><div class="info-icon-dot" style="background:'+color+'22">'+svgStr+'</div></div>';
     h+='<div class="info-name">'+item.name+'</div>';
     h+='<div class="info-days">'+daysToDotsHTML(days,color)+'</div>';
@@ -419,7 +419,7 @@ function renderTodayNotice(items){
     } else if(SVG[item.type]){
       svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
     }
-    html+='<tr class="today-item" onclick="openTodayPopup('+idx+',this)">';
+    html+='<tr class="today-item" onclick="openTodayPopup('+idx+',this.querySelector(\'.today-icon\'))">';
     html+='<td class="today-icon-cell"><div class="today-icon" style="background:'+bgColor+'">'+svgStr+'</div></td>';
     html+='<td class="today-name">'+item.name+'</td>';
     function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
