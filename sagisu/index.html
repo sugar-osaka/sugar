@@ -279,7 +279,8 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     </div>
   </div>
   <div class="popup-memo" id="popup-memo"></div>
-  <div id="popup-reserve-wrap" style="display:none;text-align:right;margin-top:7px;padding-top:7px;border-top:1px solid #f0ebe8">
+  <div id="popup-reserve-wrap" style="display:none;align-items:center;margin-top:7px;padding-top:7px;border-top:1px solid #f0ebe8">
+    <a id="popup-insta" href="https://www.instagram.com/sugar_fukushima/" target="_blank" rel="noopener noreferrer" style="display:flex;align-items:center;justify-content:center;width:0;height:30px;border-radius:8px;background:#F9EFF1;flex-shrink:0;overflow:hidden;opacity:0;transition:none;pointer-events:none;margin-left:auto" aria-label="Instagram"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#A63F52" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1.2" fill="#A63F52" stroke="none"/></svg></a>
     <a class="popup-reserve" id="popup-reserve" href="#" target="_blank" rel="noopener noreferrer">ご予約ページ<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;stroke:#fff;fill:none;flex-shrink:0;opacity:0.85;vertical-align:middle;margin-left:3px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg></a>
   </div>
 </div>
@@ -321,7 +322,7 @@ function renderHours(){
     var color=COLORS[item.type]||'#432f2f';
     var hours=item.hours||(TYPE_INFO[item.type]?TYPE_INFO[item.type].hours:'')||'';
     var svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
-    h+='<div class="info-row">';
+    h+='<div class="info-row" onclick="openHoursPopup(\''+item.type+'\',this)" style="cursor:pointer">';
     h+='<div class="info-icon"><div class="info-icon-dot" style="background:'+color+'22">'+svgStr+'</div></div>';
     h+='<div class="info-name">'+item.name+'</div>';
     h+='<div class="info-days">'+daysToDotsHTML(days,color)+'</div>';
@@ -360,7 +361,13 @@ function parseCSV(text){
       var targetKey=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
       var days=daysRaw?daysRaw.split('').map(function(c){return DAY_NAMES.indexOf(c);}).filter(function(d){return d>=0;}):[]; 
       var existing=shopItems.find(function(x){return x.type===targetKey;});
-      if(!existing){shopItems.push({type:targetKey,name:targetRaw||targetKey,days:days,hours:hoursRaw});}
+      if(!existing){shopItems.push({type:targetKey,name:targetRaw||targetKey,days:days,hours:hoursRaw,memo:memoRaw,reserveUrl:reserveUrlRaw});}
+      else{
+        if(days.length) existing.days=days;
+        if(hoursRaw) existing.hours=hoursRaw;
+        if(memoRaw) existing.memo=memoRaw;
+        if(reserveUrlRaw) existing.reserveUrl=reserveUrlRaw;
+      }
       if(days.length>0) dayOverrides[targetKey]=days;
     }
     if(kind==='extra'||kind==='event'||kind==='closed'){
@@ -395,7 +402,7 @@ function renderTodayNotice(items){
     } else if(SVG[item.type]){
       svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
     }
-    html+='<tr class="today-item" onclick="openTodayPopup('+idx+')">';
+    html+='<tr class="today-item" onclick="openTodayPopup('+idx+',this)">';
     html+='<td class="today-icon-cell"><div class="today-icon" style="background:'+bgColor+'">'+svgStr+'</div></td>';
     html+='<td class="today-name">'+item.name+'</td>';
     function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
@@ -409,16 +416,22 @@ function renderTodayNotice(items){
   window._todayItems=items;
 }
 
-function openTodayPopup(idx){
-  var items=window._todayItems||[];
-  var item=items[idx];
-  if(!item) return;
-  var color=item.kind==='closed'?'#AF011C':item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
+var popupAnchorEl=null;
+var INSTA_URL='https://www.instagram.com/sugar_fukushima/';
+
+function formatDateJP(dateStr){
+  var w=['日','月','火','水','木','金','土'];
+  var p=dateStr.split('-');
+  var d=new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10));
+  return (d.getMonth()+1)+'/'+d.getDate()+'('+w[d.getDay()]+')';
+}
+
+function showPopup(kind,type,color,name,hoursHTML,anchorEl,reserveUrl,btnText,memo,showInsta){
   var iconEl=document.getElementById('popup-icon');
   iconEl.className='popup-icon';
   iconEl.style.background='';
   iconEl.innerHTML='';
-  if(item.kind==='closed'){
+  if(kind==='closed'){
     iconEl.style.background='#AF011C';
     iconEl.style.color='#fcebed';
     iconEl.style.fontSize='13px';
@@ -426,7 +439,7 @@ function openTodayPopup(idx){
     iconEl.style.fontFamily='Yomogi,cursive';
     iconEl.style.borderRadius='6px';
     iconEl.textContent='休';
-  } else if(item.kind==='event'){
+  } else if(kind==='event'){
     iconEl.style.background='#fcc800';
     iconEl.style.color='#432f2f';
     iconEl.style.fontSize='8px';
@@ -437,53 +450,128 @@ function openTodayPopup(idx){
     iconEl.style.justifyContent='center';
     iconEl.style.whiteSpace='nowrap';
     iconEl.textContent='イベント';
-  } else if(SVG[item.type]){
+  } else if(SVG[type]){
     iconEl.style.background=color+'22';
-    var svgStr=SVG[item.type].replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
+    var svgStr=SVG[type].replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
     var vbMatch=svgStr.match(/viewBox="([^"]+)"/);
     var vb=vbMatch?vbMatch[1]:'0 0 24 24';
     var vbW=parseFloat(vb.split(' ')[2]||24);
     iconEl.innerHTML=svgStr.replace(/<svg([^>]*)>/,vbW>30?'<svg$1 width="100%" height="100%">':'<svg$1 width="20" height="20">');
   }
-  document.getElementById('popup-name').textContent=item.name;
-  function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
-  var dateLabel=item.dateFrom?(item.dateTo&&item.dateTo!==item.dateFrom?fmtDate(item.dateFrom)+' 〜 '+fmtDate(item.dateTo):fmtDate(item.dateFrom)):'';
-  document.getElementById('popup-hours').innerHTML=(dateLabel?'<span>'+dateLabel+'</span><br>':'')+item.hours;
+  document.getElementById('popup-name').textContent=name;
+  document.getElementById('popup-hours').innerHTML=hoursHTML;
+
+  var instaEl=document.getElementById('popup-insta');
+  if(instaEl){
+    if(showInsta){
+      instaEl.style.width='30px';
+      instaEl.style.opacity='1';
+      instaEl.style.pointerEvents='';
+    } else {
+      instaEl.style.width='0';
+      instaEl.style.opacity='0';
+      instaEl.style.pointerEvents='none';
+    }
+  }
+
+  var reserveWrap=document.getElementById('popup-reserve-wrap');
+  var reserveEl=document.getElementById('popup-reserve');
+  var safeUrl=reserveUrl&&/^https?:\/\//i.test(reserveUrl)?reserveUrl:'';
+  if(safeUrl){
+    reserveEl.href=safeUrl;
+    reserveEl.innerHTML=(btnText||'ご予約ページ')+'<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;stroke:#fff;fill:none;flex-shrink:0;opacity:0.85;vertical-align:middle;margin-left:3px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
+    reserveEl.style.display='';
+    reserveWrap.style.display='flex';
+    reserveWrap.style.gap='10px';
+  } else if(showInsta){
+    reserveEl.style.display='none';
+    reserveWrap.style.display='flex';
+  } else {
+    reserveEl.href='#';
+    reserveWrap.style.display='none';
+  }
+
   var memoEl=document.getElementById('popup-memo');
-  var memo=item.memo||item.eventName||'';
   if(memo){
     memoEl.textContent='';
-    memo.split('|').map(function(s){return s.trim();}).filter(Boolean).forEach(function(line,i){
+    var lines=memo.split('|');
+    while(lines.length&&lines[lines.length-1].trim()==='') lines.pop();
+    lines.forEach(function(line,i){
       if(i>0) memoEl.appendChild(document.createElement('br'));
-      memoEl.appendChild(document.createTextNode(line));
+      memoEl.appendChild(document.createTextNode(line.trim()));
     });
     memoEl.classList.add('has-memo');
+    if(safeUrl){
+      memoEl.style.borderBottom='1px solid #f0ebe8';
+      memoEl.style.paddingBottom='7px';
+      reserveWrap.style.borderTop='none';
+      reserveWrap.style.paddingTop='0';
+      reserveWrap.style.marginTop='7px';
+    } else {
+      memoEl.style.borderBottom='none';
+      memoEl.style.paddingBottom='0';
+    }
   } else {
     memoEl.textContent='';
     memoEl.classList.remove('has-memo');
+    reserveWrap.style.borderTop='1px solid #f0ebe8';
+    reserveWrap.style.paddingTop='7px';
+    reserveWrap.style.marginTop='7px';
   }
-  var reserveWrap=document.getElementById('popup-reserve-wrap');
-  var reserveEl=document.getElementById('popup-reserve');
-  var safeUrl=item.reserveUrl&&/^https?:\/\//i.test(item.reserveUrl)?item.reserveUrl:'';
-  var btnText=item.kind==='event'?'詳細を確認':'ご予約ページ';
-  if(safeUrl){
-    reserveEl.href=safeUrl;
-    reserveEl.innerHTML=btnText+'<svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:11px;height:11px;stroke:#fff;fill:none;flex-shrink:0;opacity:0.85;vertical-align:middle;margin-left:3px"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>';
-    reserveWrap.style.display='block';
-  } else {
-    reserveWrap.style.display='none';
-  }
+
   var card=document.getElementById('popup-card');
   var overlay=document.getElementById('popup-overlay');
   card.classList.remove('is-visible');
   overlay.classList.add('is-open');
-  card.style.left='50%';
-  card.style.top='50%';
-  card.style.transform='translate(-50%,-50%) scale(0.96)';
+  popupAnchorEl=anchorEl;
   requestAnimationFrame(function(){
+    if(anchorEl) positionPopupNear(anchorEl,card);
     card.classList.add('is-visible');
-    card.style.transform='translate(-50%,-50%) scale(1)';
   });
+}
+
+function openTodayPopup(idx,anchorEl){
+  var items=window._todayItems||[];
+  var item=items[idx];
+  if(!item) return;
+  var color=item.kind==='closed'?'#AF011C':item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
+
+  var periodLabel='';
+  if(item.dateFrom){
+    periodLabel='【期間】'+formatDateJP(item.dateFrom);
+    if(item.dateTo&&item.dateTo!==item.dateFrom) periodLabel+='〜'+formatDateJP(item.dateTo);
+    else periodLabel+=' のみ';
+  }
+  var hoursLine=item.hours?(item.kind==='extra'?'【営業時間】'+item.hours:item.hours):'';
+  var hoursHTML=(periodLabel?'<span>'+periodLabel+'</span>':'')+(periodLabel&&hoursLine?'<br>':'')+hoursLine;
+
+  var memo=item.memo||item.eventName||'';
+  var btnText=item.kind==='event'?'詳細を確認':'ご予約ページ';
+  showPopup(item.kind,item.type,color,item.name,hoursHTML,anchorEl,item.reserveUrl,btnText,memo,false);
+}
+
+function openHoursPopup(type,anchorEl){
+  var item=shopItems.find(function(x){return x.type===type;});
+  if(!item) return;
+  var color=COLORS[type]||'#432f2f';
+  var hoursHTML=item.hours?'【営業時間】'+item.hours:'';
+  showPopup('fixed',type,color,item.name,hoursHTML,anchorEl,item.reserveUrl,'ご予約ページ',item.memo,type==='muffin');
+}
+
+function positionPopupNear(anchorEl,card){
+  var gapH=-6,gapV=-6,margin=8;
+  var anchor=anchorEl.getBoundingClientRect();
+  var cardW=card.offsetWidth,cardH=card.offsetHeight;
+  var vw=window.innerWidth,vh=window.innerHeight;
+  var left,top;
+  if(anchor.right+gapH+cardW<=vw-margin){left=anchor.right+gapH;top=anchor.top-cardH-gapV;}
+  else{left=anchor.left-cardW-gapH;top=anchor.top-cardH-gapV;}
+  if(top<margin) top=anchor.bottom+gapV;
+  if(left<margin) left=margin;
+  if(left+cardW>vw-margin) left=vw-margin-cardW;
+  if(top+cardH>vh-margin) top=vh-margin-cardH;
+  card.style.left=Math.round(left)+'px';
+  card.style.top=Math.round(top)+'px';
 }
 
 function closeTodayPopup(){
@@ -496,6 +584,13 @@ document.addEventListener('DOMContentLoaded',function(){
   var closeBtn=document.getElementById('popup-close');
   if(overlay) overlay.addEventListener('click',function(e){if(e.target===overlay)closeTodayPopup();});
   if(closeBtn) closeBtn.addEventListener('click',closeTodayPopup);
+});
+
+window.addEventListener('resize',function(){
+  if(popupAnchorEl){
+    var card=document.getElementById('popup-card');
+    if(card.classList.contains('is-visible')) positionPopupNear(popupAnchorEl,card);
+  }
 });
 
 function parseMaster(text){
