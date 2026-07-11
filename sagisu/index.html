@@ -449,7 +449,7 @@ function renderTodayNotice(items,closedNotice){
       var bgColor=color+'22';
       var svgStr='';
       if(item.kind==='event'){
-        svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">EVENT</span>';
+        svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">イベント</span>';
         bgColor='#fcc800';
       } else if(SVG[item.type]){
         svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
