@@ -62,9 +62,8 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .info-name{display:inline-block;font-size:12px;color:#432f2f;padding-right:8px;white-space:nowrap;text-shadow:0 0 0.3px #432f2f}
 .info-days{padding-right:6px;white-space:nowrap}
 .info-hours{font-size:11px;color:#9a8070;white-space:nowrap;text-shadow:0 0 0.2px #9a8070;word-break:break-word;overflow-wrap:break-word}
-.info-detail-row{display:block;padding-left:32px}
-.info-detail-period{display:block;font-size:11px;color:#9a8070;white-space:normal;word-break:break-word;overflow-wrap:break-word;text-shadow:0 0 0.2px #9a8070}
-.info-detail-line2{display:flex;align-items:center;flex-wrap:wrap;margin-top:2px}
+.info-detail-row{display:flex;align-items:center;flex-wrap:wrap;padding-left:32px}
+.info-detail-period{font-size:11px;color:#9a8070;white-space:normal;word-break:break-word;overflow-wrap:break-word;padding-right:8px;text-shadow:0 0 0.2px #9a8070;min-width:0}
 .info-detail-dots{padding-right:6px}
 .info-detail-hours{font-size:11px;color:#9a8070;white-space:nowrap;text-shadow:0 0 0.2px #9a8070}
 .day-dots{display:inline-flex;gap:2px;align-items:center}
@@ -440,18 +439,16 @@ function formatShortRange(s,e,openEnded){
   return a===b?a:(a+'〜'+b);
 }
 
-// 種別名の幅に合わせて、曜日・時間の開始位置を揃える（期間は独立した行なので幅の対象に含めない）
+// 種別名の幅を、通常行（曜日つき1行表示）どうしで揃える
 function alignInfoColumns(){
   var container=document.getElementById('hours-content');
   if(!container) return;
   var names=container.querySelectorAll('.info-name');
-  var line2s=container.querySelectorAll('.info-detail-line2');
   if(!names.length) return;
   names.forEach(function(el){ el.style.minWidth='0'; });
   var maxW=0;
   names.forEach(function(el){ maxW=Math.max(maxW,el.offsetWidth); });
   names.forEach(function(el){ el.style.minWidth=maxW+'px'; });
-  line2s.forEach(function(el){ el.style.marginLeft=maxW+'px'; });
 }
 
 function renderHours(){
@@ -488,8 +485,9 @@ function renderHours(){
         var hours=g.hours||(TYPE_INFO[item.type]?TYPE_INFO[item.type].hours:'')||'';
         var dateLabel=g.ranges.map(function(r){ return formatShortRange(r.start,r.end,r.openEnded); }).join('、');
         h+='<div class="info-detail-row">';
-        h+='<div class="info-detail-period">'+(dateLabel?'（'+dateLabel+'）':'')+'</div>';
-        h+='<div class="info-detail-line2"><span class="info-detail-dots">'+daysToDotsHTML(g.days,color)+'</span><span class="info-detail-hours">/ '+hours+'</span></div>';
+        h+='<span class="info-detail-period">'+(dateLabel?'（'+dateLabel+'）':'')+'</span>';
+        h+='<span class="info-detail-dots">'+daysToDotsHTML(g.days,color)+'</span>';
+        h+='<span class="info-detail-hours">'+hours+'</span>';
         h+='</div>';
       });
     }
