@@ -175,6 +175,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     <!-- 今日のお知らせ -->
     <div id="today-notice-section" style="display:none;margin-bottom:1rem">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.6rem"><div class="section-title" style="margin-bottom:0">TODAY</div><div style="font-size:9px;color:#b09a8a;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #b09a8a">アイコンを押すと詳細を確認できます</div></div>
+      <div id="today-closed-notice" style="display:none;background:#FCEBED;border:1.5px solid #AF011C;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:12px;color:#AF011C;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #AF011C"></div>
       <table id="today-notice-list" class="today-rows" style="background:#fff;border:1.5px solid #F5E6E8;border-radius:10px;width:100%"></table>
     </div>
 
@@ -333,6 +334,13 @@ function renderHours(){
   el.innerHTML=h;
 }
 
+function parseDateLocal(s){
+  if(!s) return null;
+  var p=s.split('-');
+  if(p.length<3) return null;
+  return new Date(parseInt(p[0],10),parseInt(p[1],10)-1,parseInt(p[2],10));
+}
+
 function parseCSV(text){
   shopItems=[];
   dayOverrides={};
@@ -340,7 +348,11 @@ function parseCSV(text){
   var todayItems=[];
   var now=new Date();
   var ymd=now.getFullYear()+'-'+(('0'+(now.getMonth()+1)).slice(-2))+'-'+(('0'+now.getDate()).slice(-2));
-  var kindMap={'固定営業':'fixed','臨時休業':'closed','非表示':'off','営業時間変更':'time','臨時営業&イベント(アイコン表示)':'extra','イベント(帯表示)':'event','臨時営業':'extra','イベント':'event'};
+  var todayDateObj=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var dayMap={'日':0,'月':1,'火':2,'水':3,'木':4,'金':5,'土':6};
+  var kindMap={'固定営業':'fixed','臨時休業':'closed','定休日':'regular_closed','非表示':'off','営業時間変更':'time','臨時営業&イベント(アイコン表示)':'extra','イベント(帯表示)':'event','臨時営業':'extra','イベント':'event'};
+  var regularClosedToday=null;
+  var irregularClosedToday=null;
   for(var i=1;i<rows.length;i++){
     var cols=rows[i].split(',');
     var shopRaw=(cols[2]||'').trim().toLowerCase();
@@ -369,51 +381,85 @@ function parseCSV(text){
         if(reserveUrlRaw) existing.reserveUrl=reserveUrlRaw;
       }
       if(days.length>0) dayOverrides[targetKey]=days;
+      continue;
+    }
+    // 定休日：曜日パターン（期間指定は任意。開始日・終了日どちらも空欄可）
+    if(kind==='regular_closed'){
+      var rDays=daysRaw?daysRaw.split('').map(function(c){return dayMap[c];}).filter(function(d){return d!==undefined;}):[];
+      if(rDays.length && rDays.indexOf(now.getDay())!==-1){
+        var rStart=parseDateLocal(dateFrom);
+        var rEnd=parseDateLocal(dateTo);
+        if((!rStart||todayDateObj>=rStart)&&(!rEnd||todayDateObj<=rEnd)){
+          regularClosedToday={label:eventName||'定休日'};
+        }
+      }
+      continue;
     }
     if(kind==='extra'||kind==='event'||kind==='closed'){
       if(!dateFrom) continue;
       var dtTo=dateTo||dateFrom;
       if(ymd>=dateFrom&&ymd<=dtTo){
-        var targetKey2=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
-        todayItems.push({kind:kind,type:targetKey2,name:kind==='event'?(eventName||targetRaw):kind==='closed'?'臨時休業':targetRaw,hours:hoursRaw,eventName:eventName,memo:memoRaw,reserveUrl:reserveUrlRaw,dateFrom:dateFrom,dateTo:dateTo});
+        if(kind==='closed'){
+          irregularClosedToday={label:eventName||'臨時休業'};
+        } else {
+          var targetKey2=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
+          todayItems.push({kind:kind,type:targetKey2,name:kind==='event'?(eventName||targetRaw):targetRaw,hours:hoursRaw,eventName:eventName,memo:memoRaw,reserveUrl:reserveUrlRaw,dateFrom:dateFrom,dateTo:dateTo});
+        }
       }
     }
   }
+  // 臨時休業と定休日が同じ日に重なる場合は、より具体的な臨時休業を優先
+  var closedNotice=irregularClosedToday?{type:'irregular',label:irregularClosedToday.label}:(regularClosedToday?{type:'regular',label:regularClosedToday.label}:null);
   renderHours();
-  renderTodayNotice(todayItems);
+  renderTodayNotice(todayItems,closedNotice);
 }
 
-function renderTodayNotice(items){
-  if(!items||items.length===0) return;
+function renderTodayNotice(items,closedNotice){
   var section=document.getElementById('today-notice-section');
   var list=document.getElementById('today-notice-list');
+  var noticeEl=document.getElementById('today-closed-notice');
   if(!section||!list) return;
-  var html='';
-  items.forEach(function(item,idx){
-    var color=item.kind==='closed'?'#AF011C':item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
-    var bgColor=color+'22';
-    var svgStr='';
-    if(item.kind==='closed'){
-      svgStr='<span style="color:#fcebed;font-size:14px;font-weight:bold;font-family:Yomogi,cursive">休</span>';
-      bgColor='#AF011C';
-    } else if(item.kind==='event'){
-      svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">EVENT</span>';
-      bgColor='#fcc800';
-    } else if(SVG[item.type]){
-      svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
+
+  if(closedNotice){
+    if(noticeEl){
+      noticeEl.textContent='本日は'+closedNotice.label+'となっております。';
+      noticeEl.style.display='block';
     }
-    html+='<tr class="today-item" onclick="openTodayPopup('+idx+',this.querySelector(\'.today-icon\'))">';
-    html+='<td class="today-icon-cell"><div class="today-icon" style="background:'+bgColor+'">'+svgStr+'</div></td>';
-    html+='<td class="today-name">'+item.name+'</td>';
-    function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
-    var dateLabel=item.dateFrom?(item.dateTo&&item.dateTo!==item.dateFrom?fmtDate(item.dateFrom)+' 〜 '+fmtDate(item.dateTo):fmtDate(item.dateFrom)):'';
-    html+='<td class="today-date">'+(dateLabel?'期間：'+dateLabel:'')+'</td>';
-    html+='<td class="today-hours">'+(item.hours||'')+'</td>';
-    html+='</tr>';
-  });
-  list.innerHTML=html;
-  section.style.display='block';
-  window._todayItems=items;
+  } else if(noticeEl){
+    noticeEl.textContent='';
+    noticeEl.style.display='none';
+  }
+
+  if(items&&items.length>0){
+    var html='';
+    items.forEach(function(item,idx){
+      var color=item.kind==='event'?'#fcc800':(COLORS[item.type]||'#432f2f');
+      var bgColor=color+'22';
+      var svgStr='';
+      if(item.kind==='event'){
+        svgStr='<span style="color:#432f2f;font-size:9px;letter-spacing:-0.5px;white-space:nowrap">EVENT</span>';
+        bgColor='#fcc800';
+      } else if(SVG[item.type]){
+        svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
+      }
+      html+='<tr class="today-item" onclick="openTodayPopup('+idx+',this.querySelector(\'.today-icon\'))">';
+      html+='<td class="today-icon-cell"><div class="today-icon" style="background:'+bgColor+'">'+svgStr+'</div></td>';
+      html+='<td class="today-name">'+item.name+'</td>';
+      function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
+      var dateLabel=item.dateFrom?(item.dateTo&&item.dateTo!==item.dateFrom?fmtDate(item.dateFrom)+' 〜 '+fmtDate(item.dateTo):fmtDate(item.dateFrom)):'';
+      html+='<td class="today-date">'+(dateLabel?'期間：'+dateLabel:'')+'</td>';
+      html+='<td class="today-hours">'+(item.hours||'')+'</td>';
+      html+='</tr>';
+    });
+    list.innerHTML=html;
+    list.style.display='';
+  } else {
+    list.innerHTML='';
+    list.style.display='none';
+  }
+
+  section.style.display=(closedNotice||(items&&items.length>0))?'block':'none';
+  window._todayItems=items||[];
 }
 
 var popupAnchorEl=null;
