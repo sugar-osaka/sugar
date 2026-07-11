@@ -363,7 +363,6 @@ function parseCSV(text){
   var rows=text.trim().split('\n');
   var todayItems=[];
   var now=new Date();
-  var ymd=now.getFullYear()+'-'+(('0'+(now.getMonth()+1)).slice(-2))+'-'+(('0'+now.getDate()).slice(-2));
   var todayDateObj=new Date(now.getFullYear(),now.getMonth(),now.getDate());
   var dayMap={'日':0,'月':1,'火':2,'水':3,'木':4,'金':5,'土':6};
   var kindMap={'固定営業':'fixed','臨時休業':'closed','定休日':'regular_closed','非表示':'off','営業時間変更':'time','臨時営業&イベント(アイコン表示)':'extra','イベント(帯表示)':'event','臨時営業':'extra','イベント':'event'};
@@ -415,7 +414,9 @@ function parseCSV(text){
     if(kind==='extra'||kind==='event'||kind==='closed'){
       if(!dateFrom) continue;
       var dtTo=dateTo||dateFrom;
-      if(ymd>=dateFrom&&ymd<=dtTo){
+      var idStart=parseDateLocal(dateFrom);
+      var idEnd=parseDateLocal(dtTo)||idStart;
+      if(idStart&&todayDateObj>=idStart&&todayDateObj<=idEnd){
         if(kind==='closed'){
           irregularClosedToday={label:eventName||'臨時休業'};
         } else {
@@ -676,6 +677,14 @@ function cacheGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
 function cacheSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 
 function loadData(){
+  // 強制リロード時はキャッシュを無効化
+  try {
+    if (performance && performance.navigation && performance.navigation.type === 1) {
+      cacheSet(CACHE_TIME_KEY, '0');
+      cacheSet(MASTER_CACHE_TIME_KEY, '0');
+    }
+  } catch(e) {}
+
   var cachedMaster=cacheGet(MASTER_CACHE_KEY);
   var masterFresh=cachedMaster&&(Date.now()-parseInt(cacheGet(MASTER_CACHE_TIME_KEY)||'0'))<CACHE_DURATION;
   var cachedCSV=cacheGet(CACHE_KEY);
