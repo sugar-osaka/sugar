@@ -335,13 +335,12 @@ function getUpcomingSegments(item){
     var period=findFixedPeriodFor(item,cur);
     var days=period?period.days:[];
     var hours=period?period.hours:'';
-    var hasDates=period?(period.start!==null||period.end!==null):false;
     var sig=days.join(',')+'|'+hours;
     var lastSeg=segments[segments.length-1];
     if(lastSeg&&lastSeg.sig===sig){
       lastSeg.end=new Date(cur);
     } else {
-      segments.push({sig:sig,days:days,hours:hours,hasDates:hasDates,start:new Date(cur),end:new Date(cur),openEnded:false});
+      segments.push({sig:sig,days:days,hours:hours,start:new Date(cur),end:new Date(cur),openEnded:false});
     }
     cur.setDate(cur.getDate()+1);
   }
@@ -364,7 +363,7 @@ function groupSegmentsBySignature(segments){
   var groups=[];
   segments.forEach(function(seg){
     var g=groups.filter(function(x){return x.sig===seg.sig;})[0];
-    if(!g){ g={sig:seg.sig,days:seg.days,hours:seg.hours,hasDates:seg.hasDates,ranges:[]}; groups.push(g); }
+    if(!g){ g={sig:seg.sig,days:seg.days,hours:seg.hours,ranges:[]}; groups.push(g); }
     g.ranges.push({start:seg.start,end:seg.end,openEnded:seg.openEnded});
   });
   return groups;
@@ -383,13 +382,12 @@ function getUpcomingSegmentsDetailed(item){
     var hours=period?period.hours:'';
     var memo=period?(period.memo||''):'';
     var reserveUrl=period?(period.reserveUrl||''):'';
-    var hasDates=period?(period.start!==null||period.end!==null):false;
     var sig=days.join(',')+'|'+hours+'|'+memo+'|'+reserveUrl;
     var lastSeg=segments[segments.length-1];
     if(lastSeg&&lastSeg.sig===sig){
       lastSeg.end=new Date(cur);
     } else {
-      segments.push({sig:sig,days:days,hours:hours,memo:memo,reserveUrl:reserveUrl,hasDates:hasDates,start:new Date(cur),end:new Date(cur),openEnded:false});
+      segments.push({sig:sig,days:days,hours:hours,memo:memo,reserveUrl:reserveUrl,start:new Date(cur),end:new Date(cur),openEnded:false});
     }
     cur.setDate(cur.getDate()+1);
   }
@@ -412,7 +410,7 @@ function groupDetailedSegments(segments){
   var groups=[];
   segments.forEach(function(seg){
     var g=groups.filter(function(x){return x.sig===seg.sig;})[0];
-    if(!g){ g={sig:seg.sig,days:seg.days,hours:seg.hours,memo:seg.memo,reserveUrl:seg.reserveUrl,hasDates:seg.hasDates,ranges:[]}; groups.push(g); }
+    if(!g){ g={sig:seg.sig,days:seg.days,hours:seg.hours,memo:seg.memo,reserveUrl:seg.reserveUrl,ranges:[]}; groups.push(g); }
     g.ranges.push({start:seg.start,end:seg.end,openEnded:seg.openEnded});
   });
   return groups;
@@ -479,7 +477,7 @@ function renderHours(){
       h+='</div>';
       groups.forEach(function(g){
         var hours=g.hours||(TYPE_INFO[item.type]?TYPE_INFO[item.type].hours:'')||'';
-        var dateLabel=g.hasDates?g.ranges.map(function(r){ return formatShortRange(r.start,r.end,r.openEnded); }).join('、'):'';
+        var dateLabel=g.ranges.map(function(r){ return formatShortRange(r.start,r.end,r.openEnded); }).join('、');
         h+='<div class="info-detail-row">';
         h+='<span class="info-detail-period">'+(dateLabel?'（'+dateLabel+'）':'')+'</span>';
         h+='<span class="info-detail-dots">'+daysToDotsHTML(g.days,color)+'</span>';
@@ -764,7 +762,7 @@ function openHoursPopup(type,anchorEl){
   var blocks=[];
   groups.forEach(function(g){
     var hours=g.hours||defaultHours;
-    var dateLabel=g.hasDates?g.ranges.map(function(r){ return formatShortRange(r.start,r.end,r.openEnded); }).join('、'):'';
+    var dateLabel=g.ranges.map(function(r){ return formatShortRange(r.start,r.end,r.openEnded); }).join('、');
     var block='';
     if(showDateLabel && dateLabel) block+='<span style="display:block;font-weight:600">（'+dateLabel+'）</span>';
     if(hours) block+='<span style="display:block">【営業時間】'+hours+'</span>';
