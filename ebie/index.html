@@ -315,7 +315,6 @@ var TYPE_INFO={whole_cake:{name:'ホールケーキ',hours:'12:00-17:00'},crepe:
 var ICON_NAME_MAP={"ホールケーキ":"whole_cake","クレープ":"crepe","テイクアウト":"takeout","イートイン":"cafe","気まぐれカフェ":"KIMAGURE_cafe","マフィン":"muffin","コーヒー":"coffee_cup","クッキー":"cookie","ギフト":"gift","sugar":"sugar","スコーン":"scone","シフォンケーキ":"chiffon_cake"};
 var DAY_NAMES=['日','月','火','水','木','金','土'];
 var shopItems=[];
-var dayOverrides={};
 
 function daysToDotsHTML(days,color){
   var h='<span class="day-dots">';
@@ -324,6 +323,17 @@ function daysToDotsHTML(days,color){
     h+='<span class="day-dot'+(a?' active':'')+'" style="'+(a?'color:'+color+';border-color:'+color:'')+'">'+ DAY_NAMES[d]+'</span>';
   });
   return h+'</span>';
+}
+
+function findFixedPeriodFor(item,d){
+  var periods=item.periods;
+  if(!periods||!periods.length) return null;
+  var found=null;
+  for(var i=0;i<periods.length;i++){
+    var p=periods[i];
+    if((p.start===null||d>=p.start)&&(p.end===null||d<=p.end)) found=p;
+  }
+  return found;
 }
 
 function renderHours(){
@@ -335,11 +345,14 @@ function renderHours(){
   if(pageContent) pageContent.style.display='block';
   if(hoursSection) hoursSection.style.display='block';
   if(!shopItems||shopItems.length===0){el.innerHTML='<div class="hours-loading">営業情報を取得できませんでした</div>';return;}
+  var now=new Date();
+  var todayDateObj=new Date(now.getFullYear(),now.getMonth(),now.getDate());
   var h='<div class="info-rows">';
   shopItems.forEach(function(item){
-    var days=dayOverrides[item.type]||item.days||[];
+    var period=findFixedPeriodFor(item,todayDateObj);
+    var days=period?period.days:[];
     var color=COLORS[item.type]||'#432f2f';
-    var hours=item.hours||(TYPE_INFO[item.type]?TYPE_INFO[item.type].hours:'')||'';
+    var hours=(period&&period.hours)||(TYPE_INFO[item.type]?TYPE_INFO[item.type].hours:'')||'';
     var svgStr=(SVG[item.type]||'').replace(/stroke="currentColor"/g,'stroke="'+color+'"').replace(/fill="currentColor"/g,'fill="'+color+'"');
     h+='<div class="info-row" onclick="openHoursPopup(\''+item.type+'\',this.querySelector(\'.info-icon-dot\'))" style="cursor:pointer">';
     h+='<div class="info-icon"><div class="info-icon-dot" style="background:'+color+'22">'+svgStr+'</div></div>';
@@ -361,7 +374,6 @@ function parseDateLocal(s){
 
 function parseCSV(text){
   shopItems=[];
-  dayOverrides={};
   var rows=text.trim().split('\n');
   var todayItems=[];
   var now=new Date();
@@ -385,19 +397,15 @@ function parseCSV(text){
     if(reserveUrlRaw&&!/^https?:\/\//i.test(reserveUrlRaw)) reserveUrlRaw='';
     var dateFrom=(cols[0]||'').trim().replace(/\//g,'-');
     var dateTo=(cols[1]||'').trim().replace(/\//g,'-');
-    // 固定営業
+    // 固定営業（開始日・終了日は任意。空欄なら期間制限なし／終了日空欄なら開始日以降ずっと）
     if(kind==='fixed'){
       var targetKey=ICON_NAME_MAP[targetRaw]||targetRaw.toLowerCase();
       var days=daysRaw?daysRaw.split('').map(function(c){return DAY_NAMES.indexOf(c);}).filter(function(d){return d>=0;}):[]; 
+      var pStart=parseDateLocal(dateFrom);
+      var pEnd=parseDateLocal(dateTo);
       var existing=shopItems.find(function(x){return x.type===targetKey;});
-      if(!existing){shopItems.push({type:targetKey,name:targetRaw||targetKey,days:days,hours:hoursRaw,memo:memoRaw,reserveUrl:reserveUrlRaw});}
-      else{
-        if(days.length) existing.days=days;
-        if(hoursRaw) existing.hours=hoursRaw;
-        if(memoRaw) existing.memo=memoRaw;
-        if(reserveUrlRaw) existing.reserveUrl=reserveUrlRaw;
-      }
-      if(days.length>0) dayOverrides[targetKey]=days;
+      if(!existing){existing={type:targetKey,name:targetRaw||targetKey,periods:[]};shopItems.push(existing);}
+      existing.periods.push({start:pStart,end:pEnd,days:days,hours:hoursRaw||'',memo:memoRaw||'',reserveUrl:reserveUrlRaw||''});
       continue;
     }
     // 定休日：曜日パターン（期間指定は任意。開始日・終了日どちらも空欄可）
@@ -620,9 +628,15 @@ function openTodayPopup(idx,anchorEl){
 function openHoursPopup(type,anchorEl){
   var item=shopItems.find(function(x){return x.type===type;});
   if(!item) return;
+  var now=new Date();
+  var todayDateObj=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  var period=findFixedPeriodFor(item,todayDateObj);
   var color=COLORS[type]||'#432f2f';
-  var hoursHTML=item.hours?'【営業時間】'+item.hours:'';
-  showPopup('fixed',type,color,item.name,hoursHTML,anchorEl,item.reserveUrl,'ご予約ページ',item.memo,type==='muffin');
+  var hours=(period&&period.hours)||(TYPE_INFO[type]?TYPE_INFO[type].hours:'')||'';
+  var hoursHTML=hours?'【営業時間】'+hours:'';
+  var memo=(period&&period.memo)||'';
+  var reserveUrl=(period&&period.reserveUrl)||'';
+  showPopup('fixed',type,color,item.name,hoursHTML,anchorEl,reserveUrl,'ご予約ページ',memo,type==='muffin');
 }
 
 function positionPopupNear(anchorEl,card){
