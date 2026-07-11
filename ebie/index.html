@@ -174,8 +174,10 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     <!-- 今日のお知らせ -->
     <div id="today-notice-section" style="display:none;margin-bottom:1rem">
       <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:0.6rem"><div class="section-title" style="margin-bottom:0">TODAY</div><div style="font-size:9px;color:#b09a8a;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #b09a8a">アイコンを押すと詳細を確認できます</div></div>
-      <div id="today-closed-notice" style="display:none;background:#FCEBED;border:1.5px solid #AF011C;border-radius:10px;padding:10px 14px;margin-bottom:8px;font-size:12px;color:#AF011C;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #AF011C"></div>
-      <table id="today-notice-list" class="today-rows" style="background:#fff;border:1.5px solid #E8EFE3;border-radius:10px;width:100%"></table>
+      <div style="background:#fff;border:1.5px solid #E8EFE3;border-radius:10px;overflow:hidden">
+        <div id="today-closed-notice" style="display:none;background:#FCEBED;padding:10px 14px;font-size:12px;color:#AF011C;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #AF011C"></div>
+        <table id="today-notice-list" class="today-rows" style="width:100%"></table>
+      </div>
     </div>
 
     <!-- HOURS -->
@@ -440,8 +442,9 @@ function renderTodayNotice(items,closedNotice){
 
   if(closedNotice){
     if(noticeEl){
-      noticeEl.textContent='本日は'+closedNotice.label+'となっております。';
+      noticeEl.textContent='本日はebie店は'+closedNotice.label+'となっております。';
       noticeEl.style.display='block';
+      noticeEl.style.borderBottom=(items&&items.length>0)?'1px solid #f0ebe8':'none';
     }
   } else if(noticeEl){
     noticeEl.textContent='';
