@@ -64,7 +64,7 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .info-days{padding-right:6px;white-space:nowrap}
 .info-hours{font-size:11px;color:#9a8070;white-space:nowrap;text-shadow:0 0 0.2px #9a8070;word-break:break-word;overflow-wrap:break-word}
 .info-detail-row{display:flex;align-items:center;flex-wrap:wrap;padding-left:32px}
-.info-detail-period{font-size:11px;color:#9a8070;white-space:normal;word-break:break-word;overflow-wrap:break-word;padding-right:8px;text-shadow:0 0 0.2px #9a8070;min-width:0}
+.info-detail-period{display:inline-block;font-size:11px;color:#9a8070;white-space:normal;word-break:break-word;overflow-wrap:break-word;padding-right:8px;text-shadow:0 0 0.2px #9a8070;min-width:0}
 .info-detail-dots{padding-right:6px}
 .info-detail-hours{font-size:11px;color:#9a8070;white-space:nowrap;text-shadow:0 0 0.2px #9a8070}
 .day-dots{display:inline-flex;gap:2px;align-items:center}
@@ -416,23 +416,33 @@ function groupDetailedSegments(segments){
   return groups;
 }
 
+function isLastDayOfMonth(d){
+  var next=new Date(d.getFullYear(),d.getMonth(),d.getDate()+1);
+  return next.getMonth()!==d.getMonth();
+}
+
 function formatShortRange(s,e,openEnded){
   var a=(s.getMonth()+1)+'/'+s.getDate();
   if(openEnded) return a+'〜';
   var b=(e.getMonth()+1)+'/'+e.getDate();
+  var startIsDay1=s.getDate()===1;
+  var endIsLast=isLastDayOfMonth(e);
+  if(startIsDay1&&endIsLast) return '';
+  if(startIsDay1) return '〜'+b;
+  if(endIsLast) return a+'〜';
   return a===b?a:(a+'〜'+b);
 }
 
-// 種別名の幅を、通常行（曜日つき1行表示）どうしで揃える
+// 種別名・期間ラベルのうち実際に表示中で一番幅が広いものに合わせて、曜日の開始位置を揃える
 function alignInfoColumns(){
   var container=document.getElementById('hours-content');
   if(!container) return;
-  var names=container.querySelectorAll('.info-name');
-  if(!names.length) return;
-  names.forEach(function(el){ el.style.minWidth='0'; });
+  var labels=container.querySelectorAll('.info-name, .info-detail-period');
+  if(!labels.length) return;
+  labels.forEach(function(el){ el.style.minWidth='0'; });
   var maxW=0;
-  names.forEach(function(el){ maxW=Math.max(maxW,el.offsetWidth); });
-  names.forEach(function(el){ el.style.minWidth=maxW+'px'; });
+  labels.forEach(function(el){ maxW=Math.max(maxW,el.offsetWidth); });
+  labels.forEach(function(el){ el.style.minWidth=maxW+'px'; });
 }
 
 function renderHours(){
