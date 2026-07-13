@@ -664,7 +664,7 @@ function renderTodayNotice(items,closedNotice){
       html+='<td class="today-name">'+item.name+'</td>';
       function fmtDate(s){return s.replace(/^\d{4}-0?(\d+)-0?(\d+)$/,'$1/$2');}
       var dateLabel=item.dateFrom?(item.dateTo&&item.dateTo!==item.dateFrom?fmtDate(item.dateFrom)+' 〜 '+fmtDate(item.dateTo):fmtDate(item.dateFrom)):'';
-      html+='<td class="today-date">'+(dateLabel?'期間：'+dateLabel:'')+'</td>';
+      html+='<td class="today-date">'+(dateLabel?dateLabel:'')+'</td>';
       html+='<td class="today-hours">'+(item.hours||'')+'</td>';
       html+='</tr>';
     });
