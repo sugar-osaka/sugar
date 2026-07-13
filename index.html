@@ -81,6 +81,22 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
   .uber-banner-title{font-size:28px}
   .uber-banner{padding:18px 16px}
 }
+/* お中元 */
+.ochugen-wrap-home{position:relative}
+.ochugen-wrap-home::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:14px;background:#5C4A3A;z-index:0}
+.ochugen-banner-home{position:relative;z-index:1;display:flex;align-items:center;justify-content:space-between;gap:12px;text-decoration:none;border-radius:14px;padding:14px 16px;transition:transform 0.2s ease;background-color:#EEE8DF;background-image:linear-gradient(rgba(238,232,223,0.86),rgba(238,232,223,0.86)),url('ochugen.jpg');background-size:cover,cover;background-position:center,center;background-repeat:no-repeat,no-repeat}
+.ochugen-banner-home:active{transform:scale(0.98)}
+.ochugen-home-left{display:flex;align-items:center;gap:12px;min-width:0}
+.ochugen-home-icon{width:42px;height:42px;border-radius:10px;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ochugen-home-icon svg{width:24px;height:24px;stroke:#5C4A3A;fill:none}
+.ochugen-home-badge{display:inline-block;font-size:9px;color:#A6752E;background:#FDF0D5;padding:2px 8px;border-radius:10px;font-family:'Yomogi',cursive;margin-bottom:3px;text-shadow:0 0 0.2px #A6752E}
+.ochugen-home-title{font-family:'Caveat Brush',cursive;font-size:20px;color:#5C4A3A;line-height:1.15}
+.ochugen-home-title span{font-family:'Yomogi',cursive;font-size:13px;margin-left:3px;text-shadow:0 0 0.4px #5C4A3A}
+.ochugen-home-sub{font-size:10px;color:#9a8070;margin-top:2px;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #9a8070;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ochugen-home-btn{display:inline-flex;align-items:center;gap:5px;background:#5C4A3A;color:#fff;font-size:10px;padding:6px 12px;border-radius:20px;white-space:nowrap;font-family:'Yomogi',cursive;flex-shrink:0}
+.ochugen-home-btn svg{width:10px;height:10px;stroke:#fff;fill:none}
+@media(min-width:601px){.ochugen-home-sub{white-space:normal}}
+
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
 </style>
 </head>
@@ -165,6 +181,27 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
   </div>
 
+</div>
+
+<div class="wrap" style="padding-top:0.2rem;padding-bottom:0">
+  <div class="ochugen-wrap-home">
+    <a class="ochugen-banner-home" href="https://sugargift.theshop.jp/items/144913331" target="_blank" rel="noopener">
+      <div class="ochugen-home-left">
+        <div class="ochugen-home-icon">
+          <svg viewBox="0 0 24 24" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M3 12h18"/><path d="M12 8v13"/><path d="M12 8c-1.5-4-6-4-6-1.5S9 8 12 8z"/><path d="M12 8c1.5-4 6-4 6-1.5S15 8 12 8z"/></svg>
+        </div>
+        <div style="min-width:0">
+          <div class="ochugen-home-badge">受付期間：〜8/15(土)20:00</div>
+          <div class="ochugen-home-title">お中元<span>発送受付中</span></div>
+          <div class="ochugen-home-sub">大切な方への夏のご挨拶に</div>
+        </div>
+      </div>
+      <div class="ochugen-home-btn">
+        CHECK
+        <svg viewBox="0 0 16 16" stroke-width="1.5"><path d="M3 8h10M9 4l4 4-4 4"/></svg>
+      </div>
+    </a>
+  </div>
 </div>
 
 <div class="wrap" style="padding-top:0.5rem">
