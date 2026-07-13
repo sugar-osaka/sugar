@@ -84,7 +84,7 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 /* お中元 */
 .ochugen-wrap-home{position:relative}
 .ochugen-wrap-home::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:14px;background:#5C4A3A;z-index:0}
-.ochugen-banner-home{position:relative;z-index:1;display:block;text-decoration:none;border-radius:14px;padding:10px 16px;transition:transform 0.2s ease;background-color:#EEE8DF;background-image:linear-gradient(rgba(238,232,223,0.62),rgba(238,232,223,0.62)),url('ochugen.jpg');background-size:cover,cover;background-position:center,center 25%;background-repeat:no-repeat,no-repeat}
+.ochugen-banner-home{position:relative;z-index:1;display:block;text-decoration:none;border-radius:14px;padding:10px 16px;transition:transform 0.2s ease;background-color:#EEE8DF;background-image:linear-gradient(rgba(238,232,223,0.62),rgba(238,232,223,0.62)),url('ochugen.jpg');background-size:cover,cover;background-position:center,center 38%;background-repeat:no-repeat,no-repeat}
 .ochugen-banner-home:active{transform:scale(0.98)}
 .ochugen-home-msg{font-size:11px;color:#9a8070;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #9a8070;line-height:1.35;margin-bottom:3px}
 .ochugen-home-title{font-family:'Yomogi',cursive;font-size:24px;color:#5C4A3A;line-height:1.1;text-shadow:0 0 0.7px #5C4A3A;-webkit-text-stroke:0.5px #5C4A3A}
@@ -180,7 +180,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 
 </div>
 
-<div class="wrap" style="padding-top:0.2rem;padding-bottom:0">
+<div class="wrap" style="padding-top:0.2rem;padding-bottom:0" id="ochugen-promo-wrap-home">
   <div class="ochugen-wrap-home">
     <a class="ochugen-banner-home" href="https://sugargift.theshop.jp/items/144913331" target="_blank" rel="noopener">
       <div class="ochugen-home-msg">期間限定のシトロンの焼菓子セットを大切な人への贈り物に</div>
@@ -192,6 +192,15 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     </a>
   </div>
 </div>
+<script>
+(function(){
+  var ochugenDeadline = new Date('2026-08-15T20:00:00+09:00');
+  if (new Date() >= ochugenDeadline) {
+    var el = document.getElementById('ochugen-promo-wrap-home');
+    if (el) el.style.display = 'none';
+  }
+})();
+</script>
 
 <div class="wrap" style="padding-top:0.5rem">
 <p style="font-family:'Caveat Brush',cursive;font-size:22px;color:#9A7B6A;text-align:center;margin-top:0;margin-bottom:0.8rem;letter-spacing:0.05em">Gallery</p>
