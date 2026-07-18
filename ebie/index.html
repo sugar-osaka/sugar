@@ -54,6 +54,11 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 48px;font-family:'Yomogi',c
 .loading-bar.mid{width:65%}
 .loading-bar.long{width:85%}
 @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+.regular-closed-top{padding:0 0 8px}
+.regular-closed-row{display:flex;align-items:center;flex-wrap:wrap;font-size:11px;color:#AF011C;font-family:'Yomogi',cursive;line-height:1.7}
+.regular-closed-icon-wrap{flex:0 0 22px;width:22px;display:flex;align-items:center}
+.regular-closed-icon{width:18px;height:18px;border-radius:5px;background:#AF011C;color:#fcebed;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:bold;font-family:'Yomogi',cursive}
+.regular-closed-days{word-break:break-word;overflow-wrap:break-word;opacity:0.85}
 .info-rows{display:flex;flex-direction:column}
 .info-row{display:flex;align-items:center;flex-wrap:wrap}
 .info-icon{flex:0 0 32px;width:32px;display:flex;align-items:center;padding:5px 6px 5px 0}
@@ -224,6 +229,7 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
     <div id="hours-section" style="display:none">
       <div class="section-title">HOURS</div>
       <div class="hours-card">
+        <div class="regular-closed-top" id="regular-closed-top"></div>
         <div id="hours-content"></div>
       <div style="text-align:right;margin-top:10px">
         <a class="map-btn" href="https://sugar-osaka.github.io/sugar-calendar/?shop=ebie" target="_blank" rel="noopener">
@@ -355,6 +361,8 @@ var TYPE_INFO={whole_cake:{name:'ホールケーキ',hours:'12:00-17:00'},crepe:
 var ICON_NAME_MAP={"ホールケーキ":"whole_cake","クレープ":"crepe","テイクアウト":"takeout","イートイン":"cafe","気まぐれカフェ":"KIMAGURE_cafe","マフィン":"muffin","コーヒー":"coffee_cup","クッキー":"cookie","ギフト":"gift","sugar":"sugar","スコーン":"scone","シフォンケーキ":"chiffon_cake"};
 var DAY_NAMES=['日','月','火','水','木','金','土'];
 var shopItems=[];
+var regularClosedPeriods=[];
+var closedEventsList=[];
 
 function daysToDotsHTML(days,color){
   var h='<span class="day-dots">';
@@ -579,6 +587,8 @@ function parseDateLocal(s){
 
 function parseCSV(text){
   shopItems=[];
+  regularClosedPeriods=[];
+  closedEventsList=[];
   var rows=text.trim().split('\n');
   var todayItems=[];
   var now=new Date();
@@ -616,21 +626,26 @@ function parseCSV(text){
     // 定休日：曜日パターン（期間指定は任意。開始日・終了日どちらも空欄可）
     if(kind==='regular_closed'){
       var rDays=daysRaw?daysRaw.split('').map(function(c){return dayMap[c];}).filter(function(d){return d!==undefined;}):[];
-      if(rDays.length && rDays.indexOf(now.getDay())!==-1){
+      if(rDays.length){
         var rStart=parseDateLocal(dateFrom);
         var rEnd=parseDateLocal(dateTo);
-        if((!rStart||todayDateObj>=rStart)&&(!rEnd||todayDateObj<=rEnd)){
+        var rDayLabel=daysRaw.split('').filter(function(c){return dayMap[c]!==undefined;}).join('・');
+        regularClosedPeriods.push({start:rStart,end:rEnd,days:rDays,label:eventName||'定休日',periodText:rDayLabel+'曜日'});
+        if(rDays.indexOf(now.getDay())!==-1&&(!rStart||todayDateObj>=rStart)&&(!rEnd||todayDateObj<=rEnd)){
           regularClosedToday={label:eventName||'定休日'};
         }
       }
       continue;
     }
-    // 今日の特別データ（臨時営業・イベント・臨時休業）
+    // 臨時営業・イベント・臨時休業
     if(kind==='extra'||kind==='event'||kind==='closed'){
       if(!dateFrom) continue;
       var dtTo=dateTo||dateFrom;
       var idStart=parseDateLocal(dateFrom);
       var idEnd=parseDateLocal(dtTo)||idStart;
+      if(kind==='closed'&&idStart){
+        closedEventsList.push({start:idStart,end:idEnd,label:eventName||'臨時休業'});
+      }
       if(idStart&&todayDateObj>=idStart&&todayDateObj<=idEnd){
         if(kind==='closed'){
           irregularClosedToday={label:eventName||'臨時休業'};
@@ -644,7 +659,45 @@ function parseCSV(text){
   // 臨時休業と定休日が同じ日に重なる場合は、より具体的な臨時休業を優先
   var closedNotice=irregularClosedToday?{type:'irregular',label:irregularClosedToday.label}:(regularClosedToday?{type:'regular',label:regularClosedToday.label}:null);
   renderHours();
+  renderRegularClosedTop();
   renderTodayNotice(todayItems,closedNotice);
+}
+
+// HOURSリスト最上部：定休日（毎週◯曜日）と、今月の臨時休業日一覧をまとめて表示
+function renderRegularClosedTop(){
+  var el=document.getElementById('regular-closed-top');
+  if(!el) return;
+  var now=new Date();
+  var monthStart=new Date(now.getFullYear(),now.getMonth(),1);
+  var monthEnd=new Date(now.getFullYear(),now.getMonth()+1,0);
+  var irregularList=(closedEventsList||[]).filter(function(ev){
+    return ev.end>=monthStart&&ev.start<=monthEnd;
+  }).slice().sort(function(a,b){return a.start-b.start;});
+  var irregularDaysText=irregularList.map(function(ev){
+    var s=ev.start<monthStart?monthStart:ev.start;
+    var e=ev.end>monthEnd?monthEnd:ev.end;
+    return s.toDateString()===e.toDateString()?(s.getDate()+'日'):(s.getDate()+'〜'+e.getDate()+'日');
+  }).join('・');
+  var html='';
+  var regPeriods=(regularClosedPeriods||[]).filter(function(p){
+    return (p.start===null||p.start<=monthEnd)&&(p.end===null||p.end>=monthStart);
+  });
+  if(regPeriods.length){
+    regPeriods.forEach(function(p,idx){
+      var text='【'+p.label+'】毎週'+p.periodText;
+      if(idx===0&&irregularDaysText) text+=' / 【'+(now.getMonth()+1)+'月臨時休業日】'+irregularDaysText;
+      html+='<div class="regular-closed-row">';
+      html+='<div class="regular-closed-icon-wrap"><div class="regular-closed-icon">休</div></div>';
+      html+='<div class="regular-closed-days">'+text+'</div>';
+      html+='</div>';
+    });
+  } else if(irregularDaysText){
+    html+='<div class="regular-closed-row">';
+    html+='<div class="regular-closed-icon-wrap"><div class="regular-closed-icon">休</div></div>';
+    html+='<div class="regular-closed-days">【'+(now.getMonth()+1)+'月臨時休業日】'+irregularDaysText+'</div>';
+    html+='</div>';
+  }
+  el.innerHTML=html;
 }
 
 function renderTodayNotice(items,closedNotice){
