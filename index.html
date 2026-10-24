@@ -94,6 +94,13 @@ body{background:#fafaf8;min-height:100vh;padding:0 0 40px}
 .ochugen-home-btn{display:inline-flex;align-items:center;gap:5px;background:#5C4A3A;color:#fff;font-size:10px;padding:6px 12px;border-radius:20px;white-space:nowrap;font-family:'Yomogi',cursive;flex-shrink:0}
 .ochugen-home-btn svg{width:10px;height:10px;stroke:#fff;fill:none}
 
+/* クリスマス特設ページのバナー（期間中だけ表示。画像は3:1で、どの画面でも切れずに表示） */
+.xmas-wrap-home{position:relative}
+.xmas-wrap-home::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:14px;background:#5C4A3A;z-index:0}
+.xmas-banner-home{position:relative;z-index:1;display:block;border-radius:14px;overflow:hidden;aspect-ratio:3/1;background:#EEE8DF;transition:transform 0.2s ease}
+.xmas-banner-home:active{transform:scale(0.98)}
+.xmas-banner-home img{display:block;width:100%;height:100%;object-fit:cover}
+
 footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'Yomogi',cursive;letter-spacing:0.1em}
 </style>
 </head>
@@ -179,6 +186,36 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
   </div>
 
 </div>
+
+<!-- クリスマス特設ページのバナー（表示期間は下のスクリプトで設定。期間外は表示されません） -->
+<div class="wrap" style="padding-top:0.2rem;padding-bottom:0;display:none" id="xmas-promo-wrap-home">
+  <div class="xmas-wrap-home">
+    <a class="xmas-banner-home" href="https://sugar-osaka.github.io/christmas2026/" target="_blank" rel="noopener">
+      <img src="christmas2026.jpg" alt="Cafe Sugar Ebie クリスマスケーキ ご予約受付期間 11/1(日)〜12/5(土)" width="1800" height="600">
+    </a>
+  </div>
+</div>
+<script>
+(function(){
+  // ★表示期間（日本時間）。ここを書き換えるだけで表示・非表示の日時を変えられます
+  var xmasStart = new Date('2026-10-25T13:00:00+09:00');  // この日時から表示
+  var xmasEnd   = new Date('2026-12-06T00:00:00+09:00');  // この日時に非表示（＝12/5 23:59まで表示）
+
+  var el = document.getElementById('xmas-promo-wrap-home');
+  if (!el) return;
+  function update(){
+    var now = new Date();
+    el.style.display = (now >= xmasStart && now < xmasEnd) ? '' : 'none';
+  }
+  update();
+  // ページを開いたまま開始・終了の日時を迎えたときも切り替える
+  var now = new Date();
+  [xmasStart, xmasEnd].forEach(function(t){
+    var wait = t - now;
+    if (wait > 0 && wait < 2147483647) setTimeout(update, wait + 500);
+  });
+})();
+</script>
 
 <div class="wrap" style="padding-top:0.2rem;padding-bottom:0" id="ochugen-promo-wrap-home">
   <div class="ochugen-wrap-home">
