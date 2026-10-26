@@ -159,6 +159,13 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
 .ochugen-period{font-size:12px;color:#A6752E;background:#FDF0D5;padding:4px 11px;border-radius:10px;font-family:'Yomogi',cursive;text-shadow:0 0 0.2px #A6752E;white-space:nowrap}
 .ochugen-btn{display:inline-flex;align-items:center;gap:6px;background:#2E6040;color:#fff;font-size:11px;padding:6px 14px;border-radius:20px;font-family:'Yomogi',cursive;flex-shrink:0}
 .ochugen-btn svg{width:11px;height:11px;stroke:#fff;fill:none}
+
+/* クリスマス特設ページのバナー */
+.xmas-wrap{position:relative}
+.xmas-wrap::before{content:'';position:absolute;top:3px;left:3px;right:-3px;bottom:-3px;border-radius:12px;background:#2E6040;z-index:0}
+.xmas-banner{position:relative;z-index:1;display:block;border-radius:12px;overflow:hidden;aspect-ratio:3/1;background:#E8EFE3;transition:transform 0.15s}
+.xmas-banner:active{transform:scale(0.98)}
+.xmas-banner img{display:block;width:100%;height:100%;object-fit:cover}
 </style>
 </head>
 <body>
@@ -178,7 +185,29 @@ footer{text-align:center;margin-top:2rem;font-size:11px;color:#ccc;font-family:'
       <div class="hero-name"><span style="font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:28px">sugar</span> ebie<br><span style="font-family:'Josefin Sans',sans-serif;font-weight:300;font-size:28px">Cafe sugar</span> ebie</div>
     </div>
   </div>
-
+  
+  <!-- クリスマス特設ページのバナー（表示期間は下のスクリプトで設定） -->
+  <div class="section" id="xmas-promo-wrap" style="display:none">
+    <div class="xmas-wrap">
+      <a class="xmas-banner" href="https://sugar-osaka.github.io/christmas2026/" target="_blank" rel="noopener">
+        <img src="https://sugar-osaka.github.io/sugar/christmas2026.jpg" alt="Cafe Sugar Ebie クリスマスケーキ ご予約受付期間 11/1(日)〜12/5(土)" width="1800" height="600">
+      </a>
+    </div>
+  </div>
+  <script>
+  (function(){
+    // ★表示期間（日本時間）
+    var xmasStart = new Date('2026-10-25T13:00:00+09:00');  // この日時から表示
+    var xmasEnd   = new Date('2026-12-06T00:00:00+09:00');  // この日時に非表示（＝12/5 23:59まで表示）
+    var el = document.getElementById('xmas-promo-wrap');
+    if (!el) return;
+    function update(){ var now = new Date(); el.style.display = (now >= xmasStart && now < xmasEnd) ? '' : 'none'; }
+    update();
+    var now = new Date();
+    [xmasStart, xmasEnd].forEach(function(t){ var wait = t - now; if (wait > 0 && wait < 2147483647) setTimeout(update, wait + 500); });
+  })();
+  </script>
+  
   <!-- ローディング -->
   <div id="page-loading" style="padding:2rem 0;text-align:center">
     <div class="loading-text">読み込み中</div>
